@@ -1,14 +1,22 @@
 import { GatewayMode, Scopes } from "./enums";
-import createClient, { Middleware } from "openapi-fetch";
+import createClient, { ClientOptions, Middleware } from "openapi-fetch";
 import { paths } from "./paths";
 import { randomUUID } from "node:crypto";
+import {
+  removeCharacterFromStrings,
+  removeDiacritics,
+  trimAndRemoveSpecialCharacters,
+} from "./helpers";
 
 export class TBPlusSDK {
   private clientId: string;
   private clientSecret: string;
+  private mode: GatewayMode;
   private scopes: Scopes[];
   private clientVersion: string = "1.0.0";
+  private retryStatues: number[] = [500, 502, 503, 504];
 
+  public baseUrl: string;
   public apiClient;
   public accessToken: string | undefined = undefined;
   UNPROTECTED_ROUTES = ["/auth/oauth/v2/token"];
@@ -16,25 +24,30 @@ export class TBPlusSDK {
   constructor(
     clientId: string,
     clientSecret: string,
-    mode: GatewayMode = GatewayMode.SANDBOX,
-    scopes: Scopes[] = [Scopes.TATRAPAYPLUS],
+    sdkOptions: {
+      mode?: GatewayMode;
+      scopes?: Scopes[];
+      createClientParams?: ClientOptions;
+    } = {},
   ) {
-    let baseUrl;
-    if (mode == GatewayMode.PRODUCTION) {
-      baseUrl = "https://api.tatrabanka.sk/tatrapayplus/production";
-    } else if (mode == GatewayMode.SANDBOX) {
-      baseUrl = "https://api.tatrabanka.sk/tatrapayplus/sandbox";
+    this.mode = sdkOptions.mode ?? GatewayMode.SANDBOX;
+    if (this.mode == GatewayMode.PRODUCTION) {
+      this.baseUrl = "https://api.tatrabanka.sk/tatrapayplus/production";
+    } else if (this.mode == GatewayMode.SANDBOX) {
+      this.baseUrl = "https://api.tatrabanka.sk/tatrapayplus/sandbox";
     } else {
       throw Error("Unknown gateway mode");
     }
 
     this.clientId = clientId;
     this.clientSecret = clientSecret;
-    this.scopes = scopes;
+    this.scopes = sdkOptions.scopes ?? [Scopes.TATRAPAYPLUS];
     this.apiClient = createClient<paths>({
-      baseUrl: baseUrl,
+      baseUrl: this.baseUrl,
+      ...sdkOptions.createClientParams,
     });
     this.apiClient.use(this.getAuthMiddleware());
+    this.apiClient.use(this.getRetryMiddleware());
   }
 
   getAuthMiddleware(): Middleware {
@@ -53,6 +66,36 @@ export class TBPlusSDK {
 
         request.headers.set("Authorization", `Bearer ${this.accessToken}`);
         return request;
+      },
+    };
+  }
+
+  getRetryMiddleware(maxRetries = 3, delay = 100): Middleware {
+    return {
+      onRequest: async ({ request }) => {
+        return request.clone();
+      },
+      onResponse: async ({ request, response }) => {
+        if (!this.retryStatues.includes(response.status)) {
+          return response;
+        }
+        let attempt = 0;
+        let lastResponse = response;
+
+        while (attempt < maxRetries) {
+          const waitTime = delay * 2 ** attempt;
+          console.log(`Retry attempt ${attempt + 1}, waiting ${waitTime}ms`);
+          await new Promise((res) => setTimeout(res, waitTime));
+
+          lastResponse = await fetch(request);
+          if (!this.retryStatues.includes(lastResponse.status)) {
+            return lastResponse; // Successful response, return it
+          }
+
+          attempt++;
+        }
+
+        return lastResponse; // Return the last failed response
       },
     };
   }
@@ -91,15 +134,31 @@ export class TBPlusSDK {
     }
   }
 
+  public preProcessCreatePaymentBody(
+    body: paths["/v1/payments"]["post"]["requestBody"]["content"]["application/json"],
+  ) {
+    body = removeCharacterFromStrings(body);
+
+    if (body.cardDetail?.cardHolder) {
+      body.cardDetail.cardHolder = trimAndRemoveSpecialCharacters(
+        removeDiacritics(body.cardDetail.cardHolder),
+      );
+    }
+    return body;
+  }
+
   public async createPayment(
     body: paths["/v1/payments"]["post"]["requestBody"]["content"]["application/json"],
     redirectUri: string,
+    fetchOptions = {},
   ) {
+    body = this.preProcessCreatePaymentBody(body);
     return this.apiClient.POST("/v1/payments", {
       params: {
         header: { ...this.getDefaultHeaders(), "Redirect-URI": redirectUri },
       },
       body: body,
+      ...fetchOptions,
     });
   }
 

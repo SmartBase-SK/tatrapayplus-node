@@ -1,25 +1,14 @@
-import { describe, expect, it, vitest } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { TBPlusSDK } from "../src";
 import dotenv from "dotenv";
-import exp = require("node:constants");
-import { components } from "../src/paths";
 import { PaymentMethod } from "../src/enums";
+import { getAvailable } from "../src/helpers";
 
 dotenv.config();
 
-function getAvailable(
-  paymentMethods: components["schemas"]["availablePaymentMethod"][] | undefined,
-) {
-  if (!paymentMethods) {
-    return [];
-  }
-  return paymentMethods
-    .filter((item) => item.isAvailable)
-    .map((item) => item.paymentMethod)
-    .sort();
-}
+const REDIRECT_URI = "https://tatrabanka.sk/";
 
-describe("TBPlusSDK", () => {
+describe("TBPlusSDK tests on live", () => {
   it("retrieve available payment methods", async () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
@@ -50,7 +39,7 @@ describe("TBPlusSDK", () => {
           },
         },
       },
-      "https://google.com",
+      REDIRECT_URI,
     );
     expect(error).toBeUndefined();
     if (data) {
@@ -102,13 +91,82 @@ describe("TBPlusSDK", () => {
           },
         },
       },
-      "https://google.com",
+      REDIRECT_URI,
     );
     expect(error).toBeUndefined();
     if (data) {
       expect(data.paymentId).toBeTruthy();
       expect(data.tatraPayPlusUrl).toBeTruthy();
-      console.log(data.availablePaymentMethods);
+      expect(getAvailable(data.availablePaymentMethods)).toStrictEqual(
+        [
+          PaymentMethod.BANK_TRANSFER,
+          PaymentMethod.CARD_PAY,
+          PaymentMethod.QR_PAY,
+          PaymentMethod.PAY_LATER,
+        ].sort(),
+      );
+    }
+  });
+
+  it("card holder with diacritics and special characters in data", async () => {
+    const requestHistory: Request[] = [];
+
+    const mockFetch = vi.fn(async (input: RequestInfo, init?: RequestInit) => {
+      const request = new Request(input, init);
+      requestHistory.push(request.clone());
+      return fetch(request);
+    });
+    const sdk = new TBPlusSDK(
+      process.env.API_KEY as string,
+      process.env.API_SECRET as string,
+      {
+        createClientParams: {
+          fetch: mockFetch,
+        },
+      },
+    );
+    const body = {
+      bankTransfer: {},
+      payLater: {
+        order: {
+          orderNo: "132456",
+          orderItems: [
+            {
+              itemDetail: {
+                itemDetailSK: {
+                  itemName: "test",
+                },
+              },
+              quantity: 1,
+              totalItemPrice: 10000,
+            },
+          ],
+        },
+      },
+      userData: {
+        firstName: "<Jožko>",
+        lastName: "|Hruška\\`",
+        phone: "+421911123456",
+      },
+      cardDetail: {
+        cardHolder: "ľščťžýáíéäô Hruška",
+      },
+      basePayment: {
+        endToEnd: "test",
+        instructedAmount: {
+          amountValue: 10000,
+          currency: "EUR",
+        },
+      },
+    };
+    const { data, error } = await sdk.createPayment(body, REDIRECT_URI);
+    const requestBody = await requestHistory[1]?.json();
+
+    expect(error).toBeUndefined();
+    expect(requestBody.cardDetail.cardHolder).toBe("lsctzyaieao Hruska");
+    expect(requestBody.userData.firstName).toBe("Jožko");
+    expect(requestBody.userData.lastName).toBe("Hruška");
+    if (data) {
       expect(getAvailable(data.availablePaymentMethods)).toStrictEqual(
         [
           PaymentMethod.BANK_TRANSFER,
