@@ -9,7 +9,7 @@ dotenv.config();
 const REDIRECT_URI = "https://tatrabanka.sk/";
 
 describe("TBPlusSDK tests on live", () => {
-  it("retrieve available payment methods", async () => {
+  it("retrieve all payment methods", async () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,

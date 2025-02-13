@@ -4,3 +4,9 @@ export type AccessTokenResponse = {
   expires_in: number;
   scope: string;
 };
+
+export type PaymentMethodsParams = {
+  currencyCode?: string;
+  totalAmount?: number;
+  countryCode?: string;
+};

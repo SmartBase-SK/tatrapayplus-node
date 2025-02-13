@@ -1,12 +1,13 @@
 import { GatewayMode, Scopes } from "./enums";
 import createClient, { ClientOptions, Middleware } from "openapi-fetch";
-import { paths } from "./paths";
+import { components, paths } from "./paths";
 import { randomUUID } from "node:crypto";
 import {
   removeCharacterFromStrings,
   removeDiacritics,
   trimAndRemoveSpecialCharacters,
 } from "./helpers";
+import { PaymentMethodsParams } from "./types";
 
 export class TBPlusSDK {
   private clientId: string;
@@ -159,6 +160,43 @@ export class TBPlusSDK {
       },
       body: body,
       ...fetchOptions,
+    });
+  }
+
+  public async getAvailablePaymentMethods({
+    currencyCode,
+    totalAmount,
+    countryCode,
+  }: PaymentMethodsParams = {}) {
+    const response = await this.getPaymentMethods();
+    if (!response.data) {
+      return [];
+    }
+    return response.data.paymentMethods.filter((method) => {
+      if (
+        currencyCode &&
+        method.supportedCurrency &&
+        !method.supportedCurrency.includes(currencyCode)
+      ) {
+        return false;
+      }
+
+      if (method.amountRangeRule && totalAmount) {
+        const { minAmount = 0, maxAmount = Infinity } = method.amountRangeRule;
+        if (totalAmount < minAmount || totalAmount > maxAmount) {
+          return false;
+        }
+      }
+
+      if (
+        countryCode &&
+        method.supportedCountry &&
+        !method.supportedCountry.includes(countryCode)
+      ) {
+        return false;
+      }
+
+      return true;
     });
   }
 
