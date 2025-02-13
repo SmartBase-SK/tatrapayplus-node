@@ -9,9 +9,13 @@
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage"
   },
-  "keywords": [],
+  "homepage": "https://github.com/SmartBase-SK/tatrapayplus-node/",
   "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:SmartBase-SK/tatrapayplus-node.git"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@types/node": "^22.13.1",
@@ -28,8 +32,5 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.23.0",
     "vitest": "^3.0.5"
-  },
-  "dependencies": {
-    "stripe": "^17.6.0"
   }
 }

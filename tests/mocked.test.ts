@@ -133,20 +133,17 @@ describe("TBPlusSDK Mocked suit", () => {
         });
       }),
     );
-
-    let paymentMethods = await sdk.getAvailablePaymentMethods({
+    const { data: data_1 } = await sdk.getAvailablePaymentMethods({
       currencyCode: "USD",
     });
-    expect(
-      paymentMethods.map((item) => item.paymentMethod).sort(),
-    ).toStrictEqual([PaymentMethod.DIRECT_API, PaymentMethod.CARD_PAY].sort());
+    expect(data_1?.map((item) => item.paymentMethod).sort()).toStrictEqual(
+      [PaymentMethod.DIRECT_API, PaymentMethod.CARD_PAY].sort(),
+    );
 
-    paymentMethods = await sdk.getAvailablePaymentMethods({
+    const { data: data_2 } = await sdk.getAvailablePaymentMethods({
       totalAmount: 20,
     });
-    expect(
-      paymentMethods.map((item) => item.paymentMethod).sort(),
-    ).toStrictEqual(
+    expect(data_2?.map((item) => item.paymentMethod).sort()).toStrictEqual(
       [
         PaymentMethod.DIRECT_API,
         PaymentMethod.CARD_PAY,
@@ -155,12 +152,10 @@ describe("TBPlusSDK Mocked suit", () => {
       ].sort(),
     );
 
-    paymentMethods = await sdk.getAvailablePaymentMethods({
+    const { data: data_3 } = await sdk.getAvailablePaymentMethods({
       totalAmount: 200,
     });
-    expect(
-      paymentMethods.map((item) => item.paymentMethod).sort(),
-    ).toStrictEqual(
+    expect(data_3?.map((item) => item.paymentMethod).sort()).toStrictEqual(
       [
         PaymentMethod.DIRECT_API,
         PaymentMethod.CARD_PAY,
@@ -170,12 +165,10 @@ describe("TBPlusSDK Mocked suit", () => {
       ].sort(),
     );
 
-    paymentMethods = await sdk.getAvailablePaymentMethods({
+    const { data: data_4 } = await sdk.getAvailablePaymentMethods({
       totalAmount: 32000,
     });
-    expect(
-      paymentMethods.map((item) => item.paymentMethod).sort(),
-    ).toStrictEqual(
+    expect(data_4?.map((item) => item.paymentMethod).sort()).toStrictEqual(
       [
         PaymentMethod.DIRECT_API,
         PaymentMethod.CARD_PAY,
@@ -184,12 +177,10 @@ describe("TBPlusSDK Mocked suit", () => {
       ].sort(),
     );
 
-    paymentMethods = await sdk.getAvailablePaymentMethods({
+    const { data: data_5 } = await sdk.getAvailablePaymentMethods({
       countryCode: "HU",
     });
-    expect(
-      paymentMethods.map((item) => item.paymentMethod).sort(),
-    ).toStrictEqual(
+    expect(data_5?.map((item) => item.paymentMethod).sort()).toStrictEqual(
       [
         PaymentMethod.DIRECT_API,
         PaymentMethod.CARD_PAY,
@@ -198,10 +189,8 @@ describe("TBPlusSDK Mocked suit", () => {
       ].sort(),
     );
 
-    paymentMethods = await sdk.getAvailablePaymentMethods();
-    expect(
-      paymentMethods.map((item) => item.paymentMethod).sort(),
-    ).toStrictEqual(
+    const { data: data_6 } = await sdk.getAvailablePaymentMethods();
+    expect(data_6?.map((item) => item.paymentMethod).sort()).toStrictEqual(
       [
         PaymentMethod.DIRECT_API,
         PaymentMethod.CARD_PAY,
@@ -211,13 +200,13 @@ describe("TBPlusSDK Mocked suit", () => {
       ].sort(),
     );
 
-    paymentMethods = await sdk.getAvailablePaymentMethods({
+    const { data: data_7 } = await sdk.getAvailablePaymentMethods({
       countryCode: "HU",
       totalAmount: 50,
       currencyCode: "USD",
     });
-    expect(
-      paymentMethods.map((item) => item.paymentMethod).sort(),
-    ).toStrictEqual([PaymentMethod.DIRECT_API, PaymentMethod.CARD_PAY].sort());
+    expect(data_7?.map((item) => item.paymentMethod).sort()).toStrictEqual(
+      [PaymentMethod.DIRECT_API, PaymentMethod.CARD_PAY].sort(),
+    );
   });
 });

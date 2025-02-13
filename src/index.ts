@@ -170,9 +170,9 @@ export class TBPlusSDK {
   }: PaymentMethodsParams = {}) {
     const response = await this.getPaymentMethods();
     if (!response.data) {
-      return [];
+      return response;
     }
-    return response.data.paymentMethods.filter((method) => {
+    const newData = response.data.paymentMethods.filter((method) => {
       if (
         currencyCode &&
         method.supportedCurrency &&
@@ -198,6 +198,10 @@ export class TBPlusSDK {
 
       return true;
     });
+    return {
+      ...response,
+      data: newData,
+    };
   }
 
   public async getPaymentMethods() {
