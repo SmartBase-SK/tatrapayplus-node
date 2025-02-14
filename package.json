@@ -1,6 +1,6 @@
 {
   "name": "@tatrabanka/tatrapayplus-node",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -15,6 +15,9 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:SmartBase-SK/tatrapayplus-node.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "license": "MIT",
   "devDependencies": {
