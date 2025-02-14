@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { TBPlusSDK } from "../src";
 import dotenv from "dotenv";
-import { PaymentMethod } from "../src/enums";
+import { PaymentMethod, SimpleStatus } from "../src/enums";
 import { getAvailable } from "../src/helpers";
 
 dotenv.config();
@@ -42,12 +42,23 @@ describe("TBPlusSDK tests on live", () => {
       REDIRECT_URI,
     );
     expect(error).toBeUndefined();
+    if (!data) {
+      return;
+    }
+    const paymentId = data.paymentId;
+
+    expect(data.paymentId).toBeTruthy();
+    expect(data.tatraPayPlusUrl).toBeTruthy();
+    expect(getAvailable(data.availablePaymentMethods)).toStrictEqual(
+      [PaymentMethod.BANK_TRANSFER, PaymentMethod.QR_PAY].sort(),
+    );
+
+    const { simpleStatus, error: payment_status_error } =
+      await sdk.getPaymentStatus(paymentId);
+
+    expect(payment_status_error).toBeUndefined();
     if (data) {
-      expect(data.paymentId).toBeTruthy();
-      expect(data.tatraPayPlusUrl).toBeTruthy();
-      expect(getAvailable(data.availablePaymentMethods)).toStrictEqual(
-        [PaymentMethod.BANK_TRANSFER, PaymentMethod.QR_PAY].sort(),
-      );
+      expect(simpleStatus).toBe(SimpleStatus.PENDING);
     }
   });
 

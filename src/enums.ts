@@ -14,3 +14,9 @@ export enum PaymentMethod {
   DIRECT_API = "DIRECT_API",
   QR_PAY = "QR_PAY",
 }
+
+export enum SimpleStatus {
+  ACCEPTED = "ACCEPTED",
+  PENDING = "PENDING",
+  REJECTED = "REJECTED",
+}

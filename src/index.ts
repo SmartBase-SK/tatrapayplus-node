@@ -3,6 +3,7 @@ import createClient, { ClientOptions, Middleware } from "openapi-fetch";
 import { components, paths } from "./paths";
 import { randomUUID } from "node:crypto";
 import {
+  getSimpleStatus,
   removeCharacterFromStrings,
   removeDiacritics,
   trimAndRemoveSpecialCharacters,
@@ -211,12 +212,19 @@ export class TBPlusSDK {
   }
 
   public async getPaymentStatus(paymentId: string) {
-    return this.apiClient.GET("/v1/payments/{payment-id}/status", {
-      params: {
-        header: { ...this.getDefaultHeaders() },
-        path: { "payment-id": paymentId },
+    const response = await this.apiClient.GET(
+      "/v1/payments/{payment-id}/status",
+      {
+        params: {
+          header: { ...this.getDefaultHeaders() },
+          path: { "payment-id": paymentId },
+        },
       },
-    });
+    );
+    return {
+      ...response,
+      simpleStatus: response.data ? getSimpleStatus(response.data) : null,
+    };
   }
 
   public async updatePayment(

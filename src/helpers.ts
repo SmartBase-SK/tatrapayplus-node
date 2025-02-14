@@ -1,4 +1,6 @@
 import { components } from "./paths";
+import { PaymentStatuses } from "./types";
+import { PaymentMethod, SimpleStatus } from "./enums";
 
 export function removeDiacritics(str: string): string {
   return str
@@ -44,3 +46,60 @@ export function getAvailable(
     .map((item) => item.paymentMethod)
     .sort();
 }
+
+export function getSimpleStatus(
+  paymentStatus: components["schemas"]["paymentIntentStatusResponse"],
+) {
+  if (!paymentStatus.selectedPaymentMethod || !paymentStatus.status) {
+    return SimpleStatus.PENDING;
+  }
+  let plainStatus;
+  if (typeof paymentStatus.status === "string") {
+    plainStatus = paymentStatus.status;
+  } else if (typeof paymentStatus.status === "object") {
+    plainStatus = paymentStatus.status.status;
+  } else {
+    return SimpleStatus.PENDING;
+  }
+
+  if (
+    paymentMethodStatuses[
+      paymentStatus.selectedPaymentMethod
+    ]?.accepted.includes(plainStatus)
+  ) {
+    return SimpleStatus.ACCEPTED;
+  }
+
+  if (
+    paymentMethodStatuses[
+      paymentStatus.selectedPaymentMethod
+    ]?.rejected.includes(plainStatus)
+  ) {
+    return SimpleStatus.REJECTED;
+  }
+  return SimpleStatus.PENDING;
+}
+
+export const paymentMethodStatuses: Record<PaymentMethod, PaymentStatuses> = {
+  [PaymentMethod.QR_PAY]: {
+    accepted: ["ACSC", "ACCC"],
+    rejected: ["CANC", "RJCT"],
+  },
+  [PaymentMethod.BANK_TRANSFER]: {
+    accepted: ["ACSC", "ACCC"],
+    rejected: ["CANC", "RJCT"],
+  },
+  [PaymentMethod.PAY_LATER]: {
+    accepted: ["LOAN_APPLICATION_FINISHED", "LOAN_DISBURSED"],
+    rejected: ["CANCEL", "EXPIRED"],
+  },
+  // If CARD_PAY and DIRECT_API don't have statuses, you can leave them empty or add as needed.
+  [PaymentMethod.CARD_PAY]: {
+    accepted: ["OK", "CB"],
+    rejected: ["FAIL"],
+  },
+  [PaymentMethod.DIRECT_API]: {
+    accepted: ["OK", "CB"],
+    rejected: ["FAIL"],
+  },
+};

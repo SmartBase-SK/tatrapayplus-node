@@ -10,3 +10,8 @@ export type PaymentMethodsParams = {
   totalAmount?: number;
   countryCode?: string;
 };
+
+export type PaymentStatuses = {
+  accepted: string[];
+  rejected: string[];
+};

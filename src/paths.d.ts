@@ -4,1373 +4,1465 @@
  */
 
 export interface paths {
-    "/v1/payments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Initiate payment intent
-         * @description Initiate payment intent
-         */
-        post: operations["initiatePayment"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/v1/payments": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/v1/payments/methods": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Payment methods list
-         * @description Payment methods list
-         */
-        get: operations["getMethods"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Initiate payment intent
+     * @description Initiate payment intent
+     */
+    post: operations["initiatePayment"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/v1/payments/methods": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/v1/payments/{payment-id}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Payment intent status.
-         * @description Payment intent status
-         */
-        get: operations["getPaymentIntentStatus"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Payment methods list
+     * @description Payment methods list
+     */
+    get: operations["getMethods"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/v1/payments/{payment-id}/status": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/v1/payments/{payment-id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * Cancel payment intent.
-         * @description Cancel payment intent. Available in general if authorizationStatus is NEW. This method is also available for payments initiated by the PAY_LATER payment method, but only if the status is CUSTOMER_CREATION_IN_PROGRESS.
-         */
-        delete: operations["cancelPaymentIntent"];
-        options?: never;
-        head?: never;
-        /**
-         * Update payment intent
-         * @description Update payment intent. Only available for payments initiated by the CARD_PAY, DIRECT_API method.
-         */
-        patch: operations["updatePaymentIntent"];
-        trace?: never;
+    /**
+     * Payment intent status.
+     * @description Payment intent status
+     */
+    get: operations["getPaymentIntentStatus"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/v1/payments/{payment-id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/v1/payments-direct": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Create direct transaction request
-         * @description After obtaining the token from the Google Pay API or Apple Pay API, you need to send the token along with other payment details to the TatraPayPlus API.
-         */
-        post: operations["createDirectTransactionRequest"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * Cancel payment intent.
+     * @description Cancel payment intent. Available in general if authorizationStatus is NEW. This method is also available for payments initiated by the PAY_LATER payment method, but only if the status is CUSTOMER_CREATION_IN_PROGRESS.
+     */
+    delete: operations["cancelPaymentIntent"];
+    options?: never;
+    head?: never;
+    /**
+     * Update payment intent
+     * @description Update payment intent. Only available for payments initiated by the CARD_PAY, DIRECT_API method.
+     */
+    patch: operations["updatePaymentIntent"];
+    trace?: never;
+  };
+  "/v1/payments-direct": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/v1/appearances": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Set appearance parameters for TatraPayPlus
-         * @description Set appearance parameters for TatraPayPlus
-         */
-        post: operations["setAppearance"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Create direct transaction request
+     * @description After obtaining the token from the Google Pay API or Apple Pay API, you need to send the token along with other payment details to the TatraPayPlus API.
+     */
+    post: operations["createDirectTransactionRequest"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/v1/appearances": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/v1/appearances/logo": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Set logo for TatraPayPlus
-         * @description Logo appearance request body.  Logo must follow these rules:
-         *     MaxLength: 256px
-         *     MaxHeight: 64px
-         *
-         */
-        post: operations["setLogo"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Set appearance parameters for TatraPayPlus
+     * @description Set appearance parameters for TatraPayPlus
+     */
+    post: operations["setAppearance"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/v1/appearances/logo": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/oauth/v2/token": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Obtain OAuth2 Access Token
-         * @description Retrieves an access token using client credentials.
-         */
-        post: operations["getAccessToken"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Set logo for TatraPayPlus
+     * @description Logo appearance request body.  Logo must follow these rules:
+     *     MaxLength: 256px
+     *     MaxHeight: 64px
+     *
+     */
+    post: operations["setLogo"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/auth/oauth/v2/token": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    get?: never;
+    put?: never;
+    /**
+     * Obtain OAuth2 Access Token
+     * @description Retrieves an access token using client credentials.
+     */
+    post: operations["getAccessToken"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        /** @description
-         *     **TatraPayPlus payment update response. **
-         *
-         *     | selectedPaymentMethod      | attribute supported |
-         *     | ---------------- | ------------|
-         *     | BANK_TRANSFER              | N/A     |
-         *     | CARD_PAY              | cardPayStatusStructure |
-         *     | PAY_LATER               | N/A |
-         *      */
-        paymentIntentUpdateResponse: {
-            status?: components["schemas"]["cardPayStatusStructure"];
-        };
-        /** @description
-         *     **TatraPayPlus cancel response. **
-         *      */
-        paymentIntentCancelResponse: {
-            selectedPaymentMethod?: components["schemas"]["paymentMethod"];
-        };
-        /** @description
-         *     **TatraPayPlus status response. For each payment method will be sent specific status structure**
-         *
-         *     | selectedPaymentMethod      | status structure | description|
-         *     | ---------------- | ------------| ------------|
-         *     | BANK_TRANSFER              | bankTransferStatus     ||
-         *     | QR_PAY                   | bankTransferStatus     | Only ACCC is provided. Status will be provided as soon as amount is in target account |
-         *     | CARD_PAY              | cardPayStatusStructure ||
-         *     | PAY_LATER               | payLaterStatus ||
-         *     | DIRECT_API               | cardPayStatusStructure ||
-         *      */
-        paymentIntentStatusResponse: {
-            selectedPaymentMethod?: components["schemas"]["paymentMethod"];
-            /**
-             * @description Status of payment intent authorization progress. Be aware, It doesnt indicate payment status! To get payment status see attribute status.
-             * @enum {string}
-             */
-            authorizationStatus: "NEW" | "PAY_METHOD_SELECTED" | "AUTH_DONE" | "AUTH_FAILED" | "EXPIRED" | "CANCELLED_BY_TPP" | "CANCELLED_BY_USER";
-            status?: components["schemas"]["cardPayStatusStructure"] | components["schemas"]["bankTransferStatus"] | components["schemas"]["payLaterStatus"];
-        };
-        /** @description TatraPayPlus methods list, in case BANK_TRANSFER method is allowed for client,allowedBankProviders will be also provided */
-        paymentMethodsListResponse: {
-            paymentMethods: components["schemas"]["paymentMethods"];
-        };
-        /** @description The logo image. */
-        appearanceLogoRequest: {
-            /**
-             * Format: byte
-             * @description base64 Encoded image. MaxLength - 256px MaxHeight - 64px, Max size 1MB(base64 encoded string). Supported formats are SVG, JPEG, PNG
-             */
-            logoImage: string;
-        };
-        /** @description Attributes that can be customised */
-        appearanceRequest: {
-            /**
-             * @default SYSTEM
-             * @enum {string}
-             */
-            theme: "DARK" | "LIGHT" | "SYSTEM";
-            tintOnAccent?: components["schemas"]["colorAttribute"];
-            tintAccent?: components["schemas"]["colorAttribute"];
-            surfaceAccent?: components["schemas"]["colorAttribute"];
-        };
-        /** @description Color attributes for specific theme. Choose colour with sufficient contrast for the specific theme */
-        colorAttribute: {
-            colorDarkMode?: components["schemas"]["color"];
-            colorLightMode?: components["schemas"]["color"];
-        };
-        /** @description Hexadecimal value of the color */
-        color: string;
-        udpatePaymentRequest: components["schemas"]["cardPayUpdateInstruction"];
-        /** @description CardPay update instruction. For CONFIRM_PRE_AUTHORIZATION, CHARGEBACK is amount mandatory. */
-        cardPayUpdateInstruction: {
-            /** @enum {string} */
-            operationType: "CONFIRM_PRE_AUTHORIZATION" | "CANCEL_PRE_AUTHORIZATION" | "CHARGEBACK";
-            amount?: components["schemas"]["amountValue"];
-        };
-        /** @description Body for direct transaction initiation */
-        initiateDirectTransactionRequest: {
-            amount: components["schemas"]["amount"];
-            endToEnd: components["schemas"]["e2e"];
-            /** @description If true - pre-authorization transaction */
-            isPreAuthorization?: boolean;
-            tdsData: components["schemas"]["directTransactionTDSData"];
-            ipspData?: components["schemas"]["directTransactionIPSPData"];
-            token: components["schemas"]["token"];
-        };
-        /** @description Body for payment initiation */
-        initiatePaymentRequest: {
-            basePayment: components["schemas"]["basePayment"];
-            userData?: components["schemas"]["userData"];
-            bankTransfer?: components["schemas"]["bankTransfer"];
-            cardDetail?: components["schemas"]["cardDetail"];
-            payLater?: components["schemas"]["payLater"];
-        };
-        initiatePaymentResponse: {
-            paymentId: components["schemas"]["paymentId"];
-            tatraPayPlusUrl?: components["schemas"]["tatraPayPlusUrl"];
-            /** @description List of availibility of each possible methods. */
-            availablePaymentMethods?: components["schemas"]["availablePaymentMethod"][];
-        };
-        directTransactionTaskStatusResponse: {
-            transactionId?: components["schemas"]["transactionId"];
-            status?: components["schemas"]["directTransactionStatus"];
-            transactionData?: components["schemas"]["directTransactionData"];
-        };
-        initiateDirectTransactionResponse: {
-            paymentId: components["schemas"]["paymentId"];
-            redirectFormHtml?: components["schemas"]["directTransactionRedirectFormHtml"];
-        };
-        "40x_errorBody": {
-            /** @enum {string} */
-            errorCode: "NOT_ALLOWED_OPER" | "TOKEN_UNKNOWN" | "TOKEN_INVALID" | "TOKEN_EXPIRED";
-            errorDescription?: string;
-        };
-        "400_errorBody": {
-            /** @enum {string} */
-            errorCode?: "NO_CONTRACT" | "ILLEGAL_ARGUMENT" | "TOT_AMNT_LOW" | "TOT_AMNT_MISMATCH" | "PAYMENT_NOT_FOUND" | "NOT_ALLOWED_OPER" | "DUPLICATE_CALL" | "PA_AMOUNT_EXCEEDED" | "PA_NOT_FOUND" | "PA_ERROR" | "CB_AMOUNT_EXCEEDED" | "CB_NOT_FOUND" | "CB_TOO_OLD" | "CB_ERROR" | "NO_AVAIL_PAY_METH";
-            errorDescription?: string;
-            /** @description Reason codes of declined methods */
-            availablePaymentMethods?: components["schemas"]["availablePaymentMethod"][];
-        };
-        /** @description HTML form. Only for status TDS_AUTH_REQUIRED */
-        directTransactionRedirectFormHtml: string;
-        directTransactionData: {
-            reasonCode?: components["schemas"]["cardPayReasonCodes3Chars"] | components["schemas"]["cardPayReasonCodes2Chars"];
-            /** @description Payment authorization code */
-            paymentAuthorizationCode?: string;
-        };
-        /** @enum {string} */
-        directTransactionStatus: "OK" | "FAIL" | "TDS_AUTH_REQUIRED";
-        /**
-         * Format: $uuid
-         * @description This identification of the transaction, available only in state OK and FAIL
-         * @example 5e8bda08-5521-11ed-bdc3-0242ac120002
-         */
-        transactionId: string;
-        /**
-         * Format: $uuid
-         * @description This identification of the processing transaction job
-         * @example 5e8bda08-5521-11ed-bdc3-0242ac120002
-         */
-        taskId: string;
-        amount: {
-            amountValue: components["schemas"]["amountValue"];
-            currency: components["schemas"]["currencyCode"];
-        };
-        availablePaymentMethod: {
-            paymentMethod: components["schemas"]["paymentMethod"];
-            /** @description if true, method will be shown to user. Otherwise reasonCode will be provided */
-            isAvailable: boolean;
-            /**
-             * @description reason code. List of enumaration will be provided in documentation
-             * @enum {string}
-             */
-            reasonCodeMethodAvailability?: "NO_CONTRACT" | "NOT_FEASIBLE_CURRENCY" | "OUT_OF_RANGE_AMOUNT" | "MANDATORY_STRUCTURE_NOT_PROVIDED";
-            /** @description reason code description */
-            reasonCodeMethodAvailabilityDescription?: string;
-        };
-        /**
-         * Format: $url
-         * @description sca authorization link
-         */
-        scaAuthLink: string;
-        /**
-         * @description
-         *     **CardPay status**
-         *
-         *     | Enum      | description |
-         *     | ---------------- | ------------|
-         *     | OK              | processed successfully transaction     |
-         *     | FAIL              | failed transaction |
-         *     | PA              | pre-authorization |
-         *     | CPA              | completed pre-authorization |
-         *     | SPA               | canceled preauthorization |
-         *     | XPA               | expired pre-authorization |
-         *     | CB               | returned payment |
-         *     | AUTH_REQUIRED               | 3D secure authorization required |
-         *     | AUTH_EXPIRED               | authorization expired |
-         *     | AUTH_CANCELED               | authorization canceled |
-         *
-         * @enum {string}
-         */
-        cardPayStatus: "OK" | "FAIL" | "PA" | "CPA" | "SPA" | "XPA" | "CB" | "AUTH_REQUIRED" | "AUTH_EXPIRED" | "AUTH_CANCELED";
-        /** @description card pay status structure */
-        cardPayStatusStructure: {
-            status: components["schemas"]["cardPayStatus"];
-            currency: components["schemas"]["currencyCode"];
-            amount?: components["schemas"]["amountValue"];
-            preAuthorization?: components["schemas"]["cardPayAmount"];
-            chargeBack?: components["schemas"]["cardPayAmount"];
-            comfortPay?: {
-                status: components["schemas"]["comfortPayStatus"];
-                cid?: components["schemas"]["cardId"];
-            };
-            maskedCardNumber?: components["schemas"]["maskedCardNumber"];
-            reasonCode?: components["schemas"]["cardPayReasonCodes3Chars"] | components["schemas"]["cardPayReasonCodes2Chars"];
-            /** @description Payment authorization code */
-            paymentAuthorizationCode?: string;
-        };
-        /** @description Masked card number. */
-        maskedCardNumber: string;
-        /** @description FDS,TDS, SYS. */
-        cardPayReasonCodes3Chars: string;
-        /** @description 2 chars card reasonCode, https://developer.visa.com/request_response_codes#action_code , https://developer.mastercard.com/mastercard-send-disbursements/documentation/response-error-codes/network-response-codes/ */
-        cardPayReasonCodes2Chars: string;
-        /** @enum {string} */
-        comfortPayStatus: "OK" | "FAIL";
-        cardPayAmount: {
-            amount: components["schemas"]["amountValue"];
-        };
-        /**
-         * @description Finance application status
-         * @enum {string}
-         */
-        payLaterStatus: "NEW" | "CUSTOMER_CREATION_IN_PROGRESS" | "LOAN_APPLICATION_IN_PROGRESS" | "LOAN_APPLICATION_FINISHED" | "LOAN_DISBURSED" | "CANCELED" | "EXPIRED";
-        /**
-         * @description The transaction status is filled with codes of the ISO 20022
-         *
-         * @example ACCP
-         * @enum {string}
-         */
-        bankTransferStatus: "ACCC" | "ACCP" | "ACSC" | "ACSP" | "ACTC" | "ACWC" | "ACWP" | "RCVD" | "PDNG" | "RJCT" | "CANC" | "ACFC" | "PATC" | "PART";
-        /**
-         * Format: $url
-         * @description URL address for FE redirect to tatraPayPlus app
-         */
-        tatraPayPlusUrl: string;
-        /**
-         * Format: $uuid
-         * @description Payment intent identifier
-         */
-        paymentId: string;
-        payLater: {
-            order: components["schemas"]["order"];
-            capacityInfo?: components["schemas"]["capacityInfo"];
-        };
-        /** @description Capacity posibilities of user. It is used to specify the calculation of the client's request. Based on this, the bank can make a more accurate calculation of the possibility of obtaining a loan */
-        capacityInfo: {
-            monthlyIncome: components["schemas"]["monthlyIncome"];
-            monthlyExpenses: components["schemas"]["monthlyExpenses"];
-            numberOfChildren: components["schemas"]["numberOfChildren"];
-        };
-        /**
-         * Format: double
-         * @description Declared monthly income by user
-         */
-        monthlyIncome: number;
-        /**
-         * Format: double
-         * @description Declared monthly expenses by user
-         */
-        monthlyExpenses: number;
-        /** @description Declared number of children of user */
-        numberOfChildren: number;
-        userData: {
-            externalApplicantId?: components["schemas"]["externalApplicantId"];
-            firstName: components["schemas"]["name"];
-            lastName: components["schemas"]["name"];
-            email?: components["schemas"]["email"];
-            phone?: components["schemas"]["phone"];
-        };
-        /** @description External applicant ID, could be generated by application */
-        externalApplicantId: string;
-        name: string;
-        /** @description Conditionally mandatory.  In case of TatraPayPlus payment initiation - It is mandatory only if the email attribute is not provided. */
-        phone: string;
-        /** @description Order Number. Sending the same orderNo will affect that previously created application status will change to 'CANCELLED' and new application will be created. In case that application is in state that its not possible to cancel, the error state 422 will be returned
-         *      */
-        orderNo: string;
-        /**
-         * Format: int64
-         * @description Quantity of the item
-         * @example 1
-         */
-        quantity: number;
-        /**
-         * Format: double
-         * @description Total item price (including quantity e.g.:(item price*quantity))
-         * @example 120
-         */
-        totalItemPrice: number;
-        itemName: string;
-        itemDescription: string;
-        itemDetailLangUnit: {
-            itemName: components["schemas"]["itemName"];
-            itemDescription?: components["schemas"]["itemDescription"];
-        };
-        itemDetail: {
-            itemDetailSK: components["schemas"]["itemDetailLangUnit"];
-            itemDetailEN?: components["schemas"]["itemDetailLangUnit"];
-        };
-        /**
-         * Format: uri
-         * @example https://developer.tatrabanka.sk
-         */
-        itemInfoURL: string;
-        /**
-         * @description base64 encoded image h:48px w:48px
-         * @example VGhpcyBpcyB0ZXN0
-         */
-        itemImage: string;
-        orderItem: {
-            quantity: components["schemas"]["quantity"];
-            totalItemPrice: components["schemas"]["totalItemPrice"];
-            itemDetail: components["schemas"]["itemDetail"];
-            itemInfoURL?: components["schemas"]["itemInfoURL"];
-            itemImage?: components["schemas"]["itemImage"];
-        };
-        orderItems: components["schemas"]["orderItem"][];
-        /** @description Information for creditor */
-        remittanceInformation: string;
-        /**
-         * Format: int64
-         * @description Preferred loan payment period
-         */
-        preferredLoanDuration: number;
-        /**
-         * Format: double
-         * @description Downpayment for activation of service
-         */
-        downPayment: number;
-        /** @description Order detail informations */
-        order: {
-            orderNo: components["schemas"]["orderNo"];
-            orderItems: components["schemas"]["orderItems"];
-            preferredLoanDuration?: components["schemas"]["preferredLoanDuration"];
-            downPayment?: components["schemas"]["downPayment"];
-        };
-        /** @description Allowed bank providers for BANK_TRNASFER method selected by TatraPayPlus client */
-        allowedBankProviders: components["schemas"]["provider"][];
-        /** @description BANK_TRNASFER type bank provider, for full list see documentation */
-        bankProvider: string;
-        /** @description TatraPayPlus methods list */
-        paymentMethods: components["schemas"]["paymentMethodRules"][];
-        paymentMethodRules: {
-            paymentMethod: components["schemas"]["paymentMethod"];
-            amountRangeRule?: components["schemas"]["amountRangeRule"];
-            supportedCurrency?: components["schemas"]["supportedCurrency"];
-            supportedCountry?: components["schemas"]["supportedCountry"];
-            allowedBankProviders?: components["schemas"]["allowedBankProviders"];
-        };
-        /** @description Range of amounts allowed for a given payment method */
-        amountRangeRule: {
-            minAmount?: number;
-            maxAmount?: number;
-        };
-        supportedCurrency: components["schemas"]["currencyCode"][];
-        /** @description Payment method is applicable for payment to listed countries */
-        supportedCountry: components["schemas"]["countryCode"][];
-        /**
-         * @description TatraPayPlus enumaration
-         * @enum {string}
-         */
-        paymentMethod: "BANK_TRANSFER" | "CARD_PAY" | "PAY_LATER" | "DIRECT_API" | "QR_PAY";
-        /** @description Data provider */
-        provider: {
-            countryCode: components["schemas"]["countryCode"];
-            /** @example Dummie bank */
-            providerName: string;
-            providerCode: string;
-            swiftCode: components["schemas"]["bicfi"];
-        };
-        /**
-         * @description BICFI
-         *
-         * @example AAAADEBBXXX
-         */
-        bicfi: string;
-        /** @description Common instruction detail */
-        basePayment: {
-            instructedAmount: components["schemas"]["amount"];
-            endToEnd: components["schemas"]["e2e"];
-        };
-        /** @description Bank transder attributes */
-        bankTransfer: {
-            remittanceInformationUnstructured?: components["schemas"]["remittanceInformationUnstructured"];
-        };
-        /** @description ComfortPay attributes */
-        comfortPay: {
-            cardIdentifier?: components["schemas"]["cardIdentifierOrRegister"];
-        };
-        /** @description In case of Direct API either cardHolder or email is mandatory */
-        directTransactionTDSData: {
-            cardHolder?: components["schemas"]["cardHolder"];
-            email?: components["schemas"]["email"];
-            phone?: components["schemas"]["phone"];
-            billingAddress?: components["schemas"]["address"];
-            shippingAddress?: components["schemas"]["address"];
-        };
-        token: components["schemas"]["applePayToken"] | components["schemas"]["googlePayToken"];
-        applePayToken: {
-            token?: {
-                header?: {
-                    ephemeralPublicKey?: string;
-                    publicKeyHash?: string;
-                    transactionId?: string;
-                };
-                data?: string;
-                signature?: string;
-                version?: string;
-            };
-        };
-        /** @description Value of paymentData.paymentMethodData.tokenizationData.token */
-        googlePayToken: string;
-        directTransactionIPSPData: {
-            subMerchantId: string;
-            name: string;
-            location: string;
-            country: components["schemas"]["countryCode"];
-        };
-        /** @description Card pay information */
-        cardDetail: {
-            /**
-             * @description It is possible to override the accept-language header for the CardPay payment method. This override only affects CardPay itself, not the whole TatraPayPlus service.
-             *     If it is empty , then accept-language is taken into account
-             *
-             * @enum {string}
-             */
-            cardPayLangOverride?: "SK" | "EN" | "DE" | "HU" | "CZ" | "ES" | "FR" | "IT" | "PL";
-            /** @description If true - pre-authorization transaction */
-            isPreAuthorization?: boolean;
-            cardHolder: components["schemas"]["cardHolder"];
-            billingAddress?: components["schemas"]["address"];
-            shippingAddress?: components["schemas"]["address"];
-            comfortPay?: components["schemas"]["cardIdentifierOrRegister"];
-        };
-        /** @description The card holder name. In case of Direct API either cardHolder or email is mandatory */
-        cardHolder: string;
-        /**
-         * @description Flag to register the card for ComfortPay
-         * @default false
-         * @example false
-         */
-        registerForComfortPay: boolean;
-        registerForComfortPayObj: {
-            registerForComfortPay?: components["schemas"]["registerForComfortPay"];
-        };
-        signedCardIdObj: {
-            signedCardId?: components["schemas"]["signedCardId"];
-        };
-        cardIdentifierOrRegister: components["schemas"]["registerForComfortPayObj"] | components["schemas"]["signedCardIdObj"];
-        /** @description Card identifier for ComfortPay */
-        cardId: string;
-        /** @description Signed registered card identifier by client signing certificate for direct ComfortPay in base64 encoded string */
-        signedCardId: string;
-        address: {
-            streetName?: string;
-            buildingNumber?: string;
-            townName?: string;
-            postCode?: string;
-            country: components["schemas"]["countryCode"];
-        };
-        /**
-         * @description ISO 3166 ALPHA2 country code.
-         * @example SE
-         */
-        countryCode: string;
-        /** @description EndToEndId or paymentSymbols */
-        e2e: components["schemas"]["paymentSymbols"] | components["schemas"]["endToEndId"];
-        paymentSymbols: {
-            variableSymbol: components["schemas"]["variableSymbol"];
-            specificSymbol?: components["schemas"]["specificSymbol"];
-            constantSymbol?: components["schemas"]["constantSymbol"];
-        };
-        /** @example 123456 */
-        variableSymbol: string;
-        specificSymbol: string;
-        /** @description In case of payment method CardPay will be automatically rewrite to value 0608 */
-        constantSymbol: string;
-        /** @description Max 35 alphanumeric characters
-         *      */
-        endToEndId: string;
-        /**
-         * @description ISO 4217 Alpha 3 currency code.
-         *
-         * @example EUR
-         */
-        currencyCode: string;
-        /**
-         * @description The amount given with fractional digits, where fractions must be compliant to the currency definition. Negative amounts are signed by minus.
-         *     The decimal separator is a dot.
-         *
-         *     **Example:**
-         *     Valid representations for EUR with up to two decimals are:
-         *
-         *       * 1056
-         *       * 5768.2
-         *       * -1.50
-         *       * 5877.78
-         *
-         * @example 120
-         */
-        amountValue: number;
-        /**
-         * Format: date-time
-         * @example 2017-10-25T15:30:35.035Z
-         */
-        dateTime: string;
-        /**
-         * Format: date
-         * @example 2017-10-25
-         */
-        date: string;
-        /**
-         * @description Status of calculation
-         * @enum {string}
-         */
-        status: "OFFER" | "NO_OFFER" | "OPEN" | "PROCESSING";
-        /**
-         * Format: email
-         * @description Conditionally mandatory. In case of TatraPayPlus payment initiation - It is mandatory only if the phone attribute is not provided. If the email is not provided, the user will not receive the cardPay notification and payLater will ask for the email in the app.
-         *     In case of Direct API either cardHolder or email is mandatory
-         */
-        email: string;
-        /**
-         * @description IBAN of an account.
-         * @example FR7612345987650123456789014
-         */
-        iban: string;
-        /**
-         * @description Basic Bank Account Number (BBAN) Identifier.
-         *
-         *     This data element can be used in the body of the consent request.
-         *       Message for retrieving account access consent from this account. This
-         *       data elements is used for payment accounts which have no IBAN.
-         *       ISO20022: Basic Bank Account Number (BBAN).
-         *
-         *       Identifier used nationally by financial institutions, i.e., in individual countries,
-         *       generally as part of a National Account Numbering Scheme(s),
-         *       which uniquely identifies the account of a customer.
-         *
-         * @example BARC12345612345678
-         */
-        bban: string;
-        /** @description Reference to an account by IBAN, of a payment accounts
-         *      */
-        accountReference: {
-            iban?: components["schemas"]["iban"];
-        };
-        /**
-         * @description Unstructured remittance information. At present, Tatrabanka bank transfer does not display the remittance information. SEPA remittanceInformationUnstructured contains 140 characters. For TatraPayPlus purposes, the first up to 40 characters are assigned to the paymentId. Others 100 characters are free to use
-         *
-         * @example Ref Number Merchant
-         */
-        remittanceInformationUnstructured: string;
+  schemas: {
+    /** @description
+     *     **TatraPayPlus payment update response. **
+     *
+     *     | selectedPaymentMethod      | attribute supported |
+     *     | ---------------- | ------------|
+     *     | BANK_TRANSFER              | N/A     |
+     *     | CARD_PAY              | cardPayStatusStructure |
+     *     | PAY_LATER               | N/A |
+     *      */
+    paymentIntentUpdateResponse: {
+      status?: components["schemas"]["cardPayStatusStructure"];
     };
-    responses: {
-        /** @description Successful response with access token */
-        OK_200_AuthTokenSuccess: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @example 20bc565f-c28c-4340-9e25-d5bef7ce1db7 */
-                    access_token?: string;
-                    /** @example Bearer */
-                    token_type?: string;
-                    /** @example 86400 */
-                    expires_in?: number;
-                    /** @example TATRAPAYPLUS */
-                    scope?: string;
-                };
-            };
-        };
-        /** @description Invalid client credentials */
-        UNAUTHORIZED_401_AuthTokenError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @example invalid_client */
-                    error?: string;
-                    /** @example The given client credentials were not valid */
-                    error_description?: string;
-                };
-            };
-        };
-        /** @description TatraPayPlus Apearance set */
-        OK_201_Logo_created: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description TatraPayPlus Apearance set */
-        OK_201_Appearance_created: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description TatraPayPlus transaction initiated */
-        OK_201_InitiatePaymentResponse: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["initiatePaymentResponse"];
-            };
-        };
-        /** @description TatraPayPlus direct api transaction initiated */
-        OK_201_InitiateDirectAPITransactionResponse: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["initiateDirectTransactionResponse"];
-            };
-        };
-        /** @description TatraPayPlus direct api transaction task status */
-        OK_200_DirectAPITransactionTaskStatusResponse: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["directTransactionTaskStatusResponse"];
-            };
-        };
-        /** @description OK */
-        OK_200_PaymentMethodsList: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["paymentMethodsListResponse"];
-            };
-        };
-        /** @description OK */
-        OK_200_PaymentIntentStatus: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["paymentIntentStatusResponse"];
-            };
-        };
-        /** @description Cancel payment intent. Its supported for state 'NEW' */
-        OK_200_PaymentIntentCancelation: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Payment intent successfully updated */
-        OK_200_PaymentIntentUpdate: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Bad Request */
-        BAD_REQUEST_400: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["400_errorBody"];
-            };
-        };
-        /** @description Unauthorized */
-        UNAUTHORIZED_401: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["40x_errorBody"];
-            };
-        };
-        /** @description Forbidden */
-        FORBIDDEN_403: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["40x_errorBody"];
-            };
-        };
-        /** @description Not found */
-        NOT_FOUND_404: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Method not allowed */
-        METHOD_NOT_ALLOWED_405: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Not acceptable */
-        NOT_ACCEPTABLE_406: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Request timeout */
-        REQUEST_TIMEOUT_408: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Conflict */
-        CONFLICT_409: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Unsupported media type */
-        UNSUPPORTED_MEDIA_TYPE_415: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Too many requests */
-        TOO_MANY_REQUESTS_429: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Internal server error */
-        INTERNAL_SERVER_ERROR_500: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Service unavailable */
-        SERVICE_UNAVAILABLE_503: {
-            headers: {
-                "X-Request-ID": components["headers"]["X-Request-ID"];
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
+    /** @description
+     *     **TatraPayPlus cancel response. **
+     *      */
+    paymentIntentCancelResponse: {
+      selectedPaymentMethod?: components["schemas"]["paymentMethod"];
     };
+    /** @description
+     *     **TatraPayPlus status response. For each payment method will be sent specific status structure**
+     *
+     *     | selectedPaymentMethod      | status structure | description|
+     *     | ---------------- | ------------| ------------|
+     *     | BANK_TRANSFER              | bankTransferStatus     ||
+     *     | QR_PAY                   | bankTransferStatus     | Only ACCC is provided. Status will be provided as soon as amount is in target account |
+     *     | CARD_PAY              | cardPayStatusStructure ||
+     *     | PAY_LATER               | payLaterStatus ||
+     *     | DIRECT_API               | cardPayStatusStructure ||
+     *      */
+    paymentIntentStatusResponse: {
+      selectedPaymentMethod?: components["schemas"]["paymentMethod"];
+      /**
+       * @description Status of payment intent authorization progress. Be aware, It doesnt indicate payment status! To get payment status see attribute status.
+       * @enum {string}
+       *
+       */
+      authorizationStatus:
+        | "NEW"
+        | "PAY_METHOD_SELECTED"
+        | "AUTH_DONE"
+        | "AUTH_FAILED"
+        | "EXPIRED"
+        | "CANCELLED_BY_TPP"
+        | "CANCELLED_BY_USER";
+      status?:
+        | components["schemas"]["cardPayStatusStructure"]
+        | components["schemas"]["bankTransferStatus"]
+        | components["schemas"]["payLaterStatus"];
+    };
+    /** @description TatraPayPlus methods list, in case BANK_TRANSFER method is allowed for client,allowedBankProviders will be also provided */
+    paymentMethodsListResponse: {
+      paymentMethods: components["schemas"]["paymentMethods"];
+    };
+    /** @description The logo image. */
+    appearanceLogoRequest: {
+      /**
+       * Format: byte
+       * @description base64 Encoded image. MaxLength - 256px MaxHeight - 64px, Max size 1MB(base64 encoded string). Supported formats are SVG, JPEG, PNG
+       */
+      logoImage: string;
+    };
+    /** @description Attributes that can be customised */
+    appearanceRequest: {
+      /**
+       * @default SYSTEM
+       * @enum {string}
+       */
+      theme: "DARK" | "LIGHT" | "SYSTEM";
+      tintOnAccent?: components["schemas"]["colorAttribute"];
+      tintAccent?: components["schemas"]["colorAttribute"];
+      surfaceAccent?: components["schemas"]["colorAttribute"];
+    };
+    /** @description Color attributes for specific theme. Choose colour with sufficient contrast for the specific theme */
+    colorAttribute: {
+      colorDarkMode?: components["schemas"]["color"];
+      colorLightMode?: components["schemas"]["color"];
+    };
+    /** @description Hexadecimal value of the color */
+    color: string;
+    udpatePaymentRequest: components["schemas"]["cardPayUpdateInstruction"];
+    /** @description CardPay update instruction. For CONFIRM_PRE_AUTHORIZATION, CHARGEBACK is amount mandatory. */
+    cardPayUpdateInstruction: {
+      /** @enum {string} */
+      operationType:
+        | "CONFIRM_PRE_AUTHORIZATION"
+        | "CANCEL_PRE_AUTHORIZATION"
+        | "CHARGEBACK";
+      amount?: components["schemas"]["amountValue"];
+    };
+    /** @description Body for direct transaction initiation */
+    initiateDirectTransactionRequest: {
+      amount: components["schemas"]["amount"];
+      endToEnd: components["schemas"]["e2e"];
+      /** @description If true - pre-authorization transaction */
+      isPreAuthorization?: boolean;
+      tdsData: components["schemas"]["directTransactionTDSData"];
+      ipspData?: components["schemas"]["directTransactionIPSPData"];
+      token: components["schemas"]["token"];
+    };
+    /** @description Body for payment initiation */
+    initiatePaymentRequest: {
+      basePayment: components["schemas"]["basePayment"];
+      userData?: components["schemas"]["userData"];
+      bankTransfer?: components["schemas"]["bankTransfer"];
+      cardDetail?: components["schemas"]["cardDetail"];
+      payLater?: components["schemas"]["payLater"];
+    };
+    initiatePaymentResponse: {
+      paymentId: components["schemas"]["paymentId"];
+      tatraPayPlusUrl?: components["schemas"]["tatraPayPlusUrl"];
+      /** @description List of availibility of each possible methods. */
+      availablePaymentMethods?: components["schemas"]["availablePaymentMethod"][];
+    };
+    directTransactionTaskStatusResponse: {
+      transactionId?: components["schemas"]["transactionId"];
+      status?: components["schemas"]["directTransactionStatus"];
+      transactionData?: components["schemas"]["directTransactionData"];
+    };
+    initiateDirectTransactionResponse: {
+      paymentId: components["schemas"]["paymentId"];
+      redirectFormHtml?: components["schemas"]["directTransactionRedirectFormHtml"];
+    };
+    "40x_errorBody": {
+      /** @enum {string} */
+      errorCode:
+        | "NOT_ALLOWED_OPER"
+        | "TOKEN_UNKNOWN"
+        | "TOKEN_INVALID"
+        | "TOKEN_EXPIRED";
+      errorDescription?: string;
+    };
+    "400_errorBody": {
+      /** @enum {string} */
+      errorCode?:
+        | "NO_CONTRACT"
+        | "ILLEGAL_ARGUMENT"
+        | "TOT_AMNT_LOW"
+        | "TOT_AMNT_MISMATCH"
+        | "PAYMENT_NOT_FOUND"
+        | "NOT_ALLOWED_OPER"
+        | "DUPLICATE_CALL"
+        | "PA_AMOUNT_EXCEEDED"
+        | "PA_NOT_FOUND"
+        | "PA_ERROR"
+        | "CB_AMOUNT_EXCEEDED"
+        | "CB_NOT_FOUND"
+        | "CB_TOO_OLD"
+        | "CB_ERROR"
+        | "NO_AVAIL_PAY_METH";
+      errorDescription?: string;
+      /** @description Reason codes of declined methods */
+      availablePaymentMethods?: components["schemas"]["availablePaymentMethod"][];
+    };
+    /** @description HTML form. Only for status TDS_AUTH_REQUIRED */
+    directTransactionRedirectFormHtml: string;
+    directTransactionData: {
+      reasonCode?:
+        | components["schemas"]["cardPayReasonCodes3Chars"]
+        | components["schemas"]["cardPayReasonCodes2Chars"];
+      /** @description Payment authorization code */
+      paymentAuthorizationCode?: string;
+    };
+    /** @enum {string} */
+    directTransactionStatus: "OK" | "FAIL" | "TDS_AUTH_REQUIRED";
+    /**
+     * Format: $uuid
+     * @description This identification of the transaction, available only in state OK and FAIL
+     * @example 5e8bda08-5521-11ed-bdc3-0242ac120002
+     */
+    transactionId: string;
+    /**
+     * Format: $uuid
+     * @description This identification of the processing transaction job
+     * @example 5e8bda08-5521-11ed-bdc3-0242ac120002
+     */
+    taskId: string;
+    amount: {
+      amountValue: components["schemas"]["amountValue"];
+      currency: components["schemas"]["currencyCode"];
+    };
+    availablePaymentMethod: {
+      paymentMethod: components["schemas"]["paymentMethod"];
+      /** @description if true, method will be shown to user. Otherwise reasonCode will be provided */
+      isAvailable: boolean;
+      /**
+       * @description reason code. List of enumaration will be provided in documentation
+       * @enum {string}
+       */
+      reasonCodeMethodAvailability?:
+        | "NO_CONTRACT"
+        | "NOT_FEASIBLE_CURRENCY"
+        | "OUT_OF_RANGE_AMOUNT"
+        | "MANDATORY_STRUCTURE_NOT_PROVIDED";
+      /** @description reason code description */
+      reasonCodeMethodAvailabilityDescription?: string;
+    };
+    /**
+     * Format: $url
+     * @description sca authorization link
+     */
+    scaAuthLink: string;
+    /**
+     * @description
+     *     **CardPay status**
+     *
+     *     | Enum      | description |
+     *     | ---------------- | ------------|
+     *     | OK              | processed successfully transaction     |
+     *     | FAIL              | failed transaction |
+     *     | PA              | pre-authorization |
+     *     | CPA              | completed pre-authorization |
+     *     | SPA               | canceled preauthorization |
+     *     | XPA               | expired pre-authorization |
+     *     | CB               | returned payment |
+     *     | AUTH_REQUIRED               | 3D secure authorization required |
+     *     | AUTH_EXPIRED               | authorization expired |
+     *     | AUTH_CANCELED               | authorization canceled |
+     *
+     * @enum {string}
+     */
+    cardPayStatus:
+      | "OK"
+      | "FAIL"
+      | "PA"
+      | "CPA"
+      | "SPA"
+      | "XPA"
+      | "CB"
+      | "AUTH_REQUIRED"
+      | "AUTH_EXPIRED"
+      | "AUTH_CANCELED";
+    /** @description card pay status structure */
+    cardPayStatusStructure: {
+      status: components["schemas"]["cardPayStatus"];
+      currency: components["schemas"]["currencyCode"];
+      amount?: components["schemas"]["amountValue"];
+      preAuthorization?: components["schemas"]["cardPayAmount"];
+      chargeBack?: components["schemas"]["cardPayAmount"];
+      comfortPay?: {
+        status: components["schemas"]["comfortPayStatus"];
+        cid?: components["schemas"]["cardId"];
+      };
+      maskedCardNumber?: components["schemas"]["maskedCardNumber"];
+      reasonCode?:
+        | components["schemas"]["cardPayReasonCodes3Chars"]
+        | components["schemas"]["cardPayReasonCodes2Chars"];
+      /** @description Payment authorization code */
+      paymentAuthorizationCode?: string;
+    };
+    /** @description Masked card number. */
+    maskedCardNumber: string;
+    /** @description FDS,TDS, SYS. */
+    cardPayReasonCodes3Chars: string;
+    /** @description 2 chars card reasonCode, https://developer.visa.com/request_response_codes#action_code , https://developer.mastercard.com/mastercard-send-disbursements/documentation/response-error-codes/network-response-codes/ */
+    cardPayReasonCodes2Chars: string;
+    /** @enum {string} */
+    comfortPayStatus: "OK" | "FAIL";
+    cardPayAmount: {
+      amount: components["schemas"]["amountValue"];
+    };
+    /**
+     * @description Finance application status
+     * @enum {string}
+     */
+    payLaterStatus:
+      | "NEW"
+      | "CUSTOMER_CREATION_IN_PROGRESS"
+      | "LOAN_APPLICATION_IN_PROGRESS"
+      | "LOAN_APPLICATION_FINISHED"
+      | "LOAN_DISBURSED"
+      | "CANCELED"
+      | "EXPIRED";
+    /**
+     * @description The transaction status is filled with codes of the ISO 20022
+     *
+     * @example ACCP
+     * @enum {string}
+     */
+    bankTransferStatus:
+      | "ACCC"
+      | "ACCP"
+      | "ACSC"
+      | "ACSP"
+      | "ACTC"
+      | "ACWC"
+      | "ACWP"
+      | "RCVD"
+      | "PDNG"
+      | "RJCT"
+      | "CANC"
+      | "ACFC"
+      | "PATC"
+      | "PART";
+    /**
+     * Format: $url
+     * @description URL address for FE redirect to tatraPayPlus app
+     */
+    tatraPayPlusUrl: string;
+    /**
+     * Format: $uuid
+     * @description Payment intent identifier
+     */
+    paymentId: string;
+    payLater: {
+      order: components["schemas"]["order"];
+      capacityInfo?: components["schemas"]["capacityInfo"];
+    };
+    /** @description Capacity posibilities of user. It is used to specify the calculation of the client's request. Based on this, the bank can make a more accurate calculation of the possibility of obtaining a loan */
+    capacityInfo: {
+      monthlyIncome: components["schemas"]["monthlyIncome"];
+      monthlyExpenses: components["schemas"]["monthlyExpenses"];
+      numberOfChildren: components["schemas"]["numberOfChildren"];
+    };
+    /**
+     * Format: double
+     * @description Declared monthly income by user
+     */
+    monthlyIncome: number;
+    /**
+     * Format: double
+     * @description Declared monthly expenses by user
+     */
+    monthlyExpenses: number;
+    /** @description Declared number of children of user */
+    numberOfChildren: number;
+    userData: {
+      externalApplicantId?: components["schemas"]["externalApplicantId"];
+      firstName: components["schemas"]["name"];
+      lastName: components["schemas"]["name"];
+      email?: components["schemas"]["email"];
+      phone?: components["schemas"]["phone"];
+    };
+    /** @description External applicant ID, could be generated by application */
+    externalApplicantId: string;
+    name: string;
+    /** @description Conditionally mandatory.  In case of TatraPayPlus payment initiation - It is mandatory only if the email attribute is not provided. */
+    phone: string;
+    /** @description Order Number. Sending the same orderNo will affect that previously created application status will change to 'CANCELLED' and new application will be created. In case that application is in state that its not possible to cancel, the error state 422 will be returned
+     *      */
+    orderNo: string;
+    /**
+     * Format: int64
+     * @description Quantity of the item
+     * @example 1
+     */
+    quantity: number;
+    /**
+     * Format: double
+     * @description Total item price (including quantity e.g.:(item price*quantity))
+     * @example 120
+     */
+    totalItemPrice: number;
+    itemName: string;
+    itemDescription: string;
+    itemDetailLangUnit: {
+      itemName: components["schemas"]["itemName"];
+      itemDescription?: components["schemas"]["itemDescription"];
+    };
+    itemDetail: {
+      itemDetailSK: components["schemas"]["itemDetailLangUnit"];
+      itemDetailEN?: components["schemas"]["itemDetailLangUnit"];
+    };
+    /**
+     * Format: uri
+     * @example https://developer.tatrabanka.sk
+     */
+    itemInfoURL: string;
+    /**
+     * @description base64 encoded image h:48px w:48px
+     * @example VGhpcyBpcyB0ZXN0
+     */
+    itemImage: string;
+    orderItem: {
+      quantity: components["schemas"]["quantity"];
+      totalItemPrice: components["schemas"]["totalItemPrice"];
+      itemDetail: components["schemas"]["itemDetail"];
+      itemInfoURL?: components["schemas"]["itemInfoURL"];
+      itemImage?: components["schemas"]["itemImage"];
+    };
+    orderItems: components["schemas"]["orderItem"][];
+    /** @description Information for creditor */
+    remittanceInformation: string;
+    /**
+     * Format: int64
+     * @description Preferred loan payment period
+     */
+    preferredLoanDuration: number;
+    /**
+     * Format: double
+     * @description Downpayment for activation of service
+     */
+    downPayment: number;
+    /** @description Order detail informations */
+    order: {
+      orderNo: components["schemas"]["orderNo"];
+      orderItems: components["schemas"]["orderItems"];
+      preferredLoanDuration?: components["schemas"]["preferredLoanDuration"];
+      downPayment?: components["schemas"]["downPayment"];
+    };
+    /** @description Allowed bank providers for BANK_TRNASFER method selected by TatraPayPlus client */
+    allowedBankProviders: components["schemas"]["provider"][];
+    /** @description BANK_TRNASFER type bank provider, for full list see documentation */
+    bankProvider: string;
+    /** @description TatraPayPlus methods list */
+    paymentMethods: components["schemas"]["paymentMethodRules"][];
+    paymentMethodRules: {
+      paymentMethod: components["schemas"]["paymentMethod"];
+      amountRangeRule?: components["schemas"]["amountRangeRule"];
+      supportedCurrency?: components["schemas"]["supportedCurrency"];
+      supportedCountry?: components["schemas"]["supportedCountry"];
+      allowedBankProviders?: components["schemas"]["allowedBankProviders"];
+    };
+    /** @description Range of amounts allowed for a given payment method */
+    amountRangeRule: {
+      minAmount?: number;
+      maxAmount?: number;
+    };
+    supportedCurrency: components["schemas"]["currencyCode"][];
+    /** @description Payment method is applicable for payment to listed countries */
+    supportedCountry: components["schemas"]["countryCode"][];
+    /**
+     * @description TatraPayPlus enumaration
+     * @enum {string}
+     */
+    paymentMethod:
+      | "BANK_TRANSFER"
+      | "CARD_PAY"
+      | "PAY_LATER"
+      | "DIRECT_API"
+      | "QR_PAY";
+    /** @description Data provider */
+    provider: {
+      countryCode: components["schemas"]["countryCode"];
+      /** @example Dummie bank */
+      providerName: string;
+      providerCode: string;
+      swiftCode: components["schemas"]["bicfi"];
+    };
+    /**
+     * @description BICFI
+     *
+     * @example AAAADEBBXXX
+     */
+    bicfi: string;
+    /** @description Common instruction detail */
+    basePayment: {
+      instructedAmount: components["schemas"]["amount"];
+      endToEnd: components["schemas"]["e2e"];
+    };
+    /** @description Bank transder attributes */
+    bankTransfer: {
+      remittanceInformationUnstructured?: components["schemas"]["remittanceInformationUnstructured"];
+    };
+    /** @description ComfortPay attributes */
+    comfortPay: {
+      cardIdentifier?: components["schemas"]["cardIdentifierOrRegister"];
+    };
+    /** @description In case of Direct API either cardHolder or email is mandatory */
+    directTransactionTDSData: {
+      cardHolder?: components["schemas"]["cardHolder"];
+      email?: components["schemas"]["email"];
+      phone?: components["schemas"]["phone"];
+      billingAddress?: components["schemas"]["address"];
+      shippingAddress?: components["schemas"]["address"];
+    };
+    token:
+      | components["schemas"]["applePayToken"]
+      | components["schemas"]["googlePayToken"];
+    applePayToken: {
+      token?: {
+        header?: {
+          ephemeralPublicKey?: string;
+          publicKeyHash?: string;
+          transactionId?: string;
+        };
+        data?: string;
+        signature?: string;
+        version?: string;
+      };
+    };
+    /** @description Value of paymentData.paymentMethodData.tokenizationData.token */
+    googlePayToken: string;
+    directTransactionIPSPData: {
+      subMerchantId: string;
+      name: string;
+      location: string;
+      country: components["schemas"]["countryCode"];
+    };
+    /** @description Card pay information */
+    cardDetail: {
+      /**
+       * @description It is possible to override the accept-language header for the CardPay payment method. This override only affects CardPay itself, not the whole TatraPayPlus service.
+       *     If it is empty , then accept-language is taken into account
+       *
+       * @enum {string}
+       */
+      cardPayLangOverride?:
+        | "SK"
+        | "EN"
+        | "DE"
+        | "HU"
+        | "CZ"
+        | "ES"
+        | "FR"
+        | "IT"
+        | "PL";
+      /** @description If true - pre-authorization transaction */
+      isPreAuthorization?: boolean;
+      cardHolder: components["schemas"]["cardHolder"];
+      billingAddress?: components["schemas"]["address"];
+      shippingAddress?: components["schemas"]["address"];
+      comfortPay?: components["schemas"]["cardIdentifierOrRegister"];
+    };
+    /** @description The card holder name. In case of Direct API either cardHolder or email is mandatory */
+    cardHolder: string;
+    /**
+     * @description Flag to register the card for ComfortPay
+     * @default false
+     * @example false
+     */
+    registerForComfortPay: boolean;
+    registerForComfortPayObj: {
+      registerForComfortPay?: components["schemas"]["registerForComfortPay"];
+    };
+    signedCardIdObj: {
+      signedCardId?: components["schemas"]["signedCardId"];
+    };
+    cardIdentifierOrRegister:
+      | components["schemas"]["registerForComfortPayObj"]
+      | components["schemas"]["signedCardIdObj"];
+    /** @description Card identifier for ComfortPay */
+    cardId: string;
+    /** @description Signed registered card identifier by client signing certificate for direct ComfortPay in base64 encoded string */
+    signedCardId: string;
+    address: {
+      streetName?: string;
+      buildingNumber?: string;
+      townName?: string;
+      postCode?: string;
+      country: components["schemas"]["countryCode"];
+    };
+    /**
+     * @description ISO 3166 ALPHA2 country code.
+     * @example SE
+     */
+    countryCode: string;
+    /** @description EndToEndId or paymentSymbols */
+    e2e:
+      | components["schemas"]["paymentSymbols"]
+      | components["schemas"]["endToEndId"];
+    paymentSymbols: {
+      variableSymbol: components["schemas"]["variableSymbol"];
+      specificSymbol?: components["schemas"]["specificSymbol"];
+      constantSymbol?: components["schemas"]["constantSymbol"];
+    };
+    /** @example 123456 */
+    variableSymbol: string;
+    specificSymbol: string;
+    /** @description In case of payment method CardPay will be automatically rewrite to value 0608 */
+    constantSymbol: string;
+    /** @description Max 35 alphanumeric characters
+     *      */
+    endToEndId: string;
+    /**
+     * @description ISO 4217 Alpha 3 currency code.
+     *
+     * @example EUR
+     */
+    currencyCode: string;
+    /**
+     * @description The amount given with fractional digits, where fractions must be compliant to the currency definition. Negative amounts are signed by minus.
+     *     The decimal separator is a dot.
+     *
+     *     **Example:**
+     *     Valid representations for EUR with up to two decimals are:
+     *
+     *       * 1056
+     *       * 5768.2
+     *       * -1.50
+     *       * 5877.78
+     *
+     * @example 120
+     */
+    amountValue: number;
+    /**
+     * Format: date-time
+     * @example 2017-10-25T15:30:35.035Z
+     */
+    dateTime: string;
+    /**
+     * Format: date
+     * @example 2017-10-25
+     */
+    date: string;
+    /**
+     * @description Status of calculation
+     * @enum {string}
+     */
+    status: "OFFER" | "NO_OFFER" | "OPEN" | "PROCESSING";
+    /**
+     * Format: email
+     * @description Conditionally mandatory. In case of TatraPayPlus payment initiation - It is mandatory only if the phone attribute is not provided. If the email is not provided, the user will not receive the cardPay notification and payLater will ask for the email in the app.
+     *     In case of Direct API either cardHolder or email is mandatory
+     */
+    email: string;
+    /**
+     * @description IBAN of an account.
+     * @example FR7612345987650123456789014
+     */
+    iban: string;
+    /**
+     * @description Basic Bank Account Number (BBAN) Identifier.
+     *
+     *     This data element can be used in the body of the consent request.
+     *       Message for retrieving account access consent from this account. This
+     *       data elements is used for payment accounts which have no IBAN.
+     *       ISO20022: Basic Bank Account Number (BBAN).
+     *
+     *       Identifier used nationally by financial institutions, i.e., in individual countries,
+     *       generally as part of a National Account Numbering Scheme(s),
+     *       which uniquely identifies the account of a customer.
+     *
+     * @example BARC12345612345678
+     */
+    bban: string;
+    /** @description Reference to an account by IBAN, of a payment accounts
+     *      */
+    accountReference: {
+      iban?: components["schemas"]["iban"];
+    };
+    /**
+     * @description Unstructured remittance information. At present, Tatrabanka bank transfer does not display the remittance information. SEPA remittanceInformationUnstructured contains 140 characters. For TatraPayPlus purposes, the first up to 40 characters are assigned to the paymentId. Others 100 characters are free to use
+     *
+     * @example Ref Number Merchant
+     */
+    remittanceInformationUnstructured: string;
+  };
+  responses: {
+    /** @description Successful response with access token */
+    OK_200_AuthTokenSuccess: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": {
+          /** @example 20bc565f-c28c-4340-9e25-d5bef7ce1db7 */
+          access_token?: string;
+          /** @example Bearer */
+          token_type?: string;
+          /** @example 86400 */
+          expires_in?: number;
+          /** @example TATRAPAYPLUS */
+          scope?: string;
+        };
+      };
+    };
+    /** @description Invalid client credentials */
+    UNAUTHORIZED_401_AuthTokenError: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": {
+          /** @example invalid_client */
+          error?: string;
+          /** @example The given client credentials were not valid */
+          error_description?: string;
+        };
+      };
+    };
+    /** @description TatraPayPlus Apearance set */
+    OK_201_Logo_created: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description TatraPayPlus Apearance set */
+    OK_201_Appearance_created: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description TatraPayPlus transaction initiated */
+    OK_201_InitiatePaymentResponse: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": components["schemas"]["initiatePaymentResponse"];
+      };
+    };
+    /** @description TatraPayPlus direct api transaction initiated */
+    OK_201_InitiateDirectAPITransactionResponse: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": components["schemas"]["initiateDirectTransactionResponse"];
+      };
+    };
+    /** @description TatraPayPlus direct api transaction task status */
+    OK_200_DirectAPITransactionTaskStatusResponse: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": components["schemas"]["directTransactionTaskStatusResponse"];
+      };
+    };
+    /** @description OK */
+    OK_200_PaymentMethodsList: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": components["schemas"]["paymentMethodsListResponse"];
+      };
+    };
+    /** @description OK */
+    OK_200_PaymentIntentStatus: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": components["schemas"]["paymentIntentStatusResponse"];
+      };
+    };
+    /** @description Cancel payment intent. Its supported for state 'NEW' */
+    OK_200_PaymentIntentCancelation: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Payment intent successfully updated */
+    OK_200_PaymentIntentUpdate: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Bad Request */
+    BAD_REQUEST_400: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": components["schemas"]["400_errorBody"];
+      };
+    };
+    /** @description Unauthorized */
+    UNAUTHORIZED_401: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": components["schemas"]["40x_errorBody"];
+      };
+    };
+    /** @description Forbidden */
+    FORBIDDEN_403: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": components["schemas"]["40x_errorBody"];
+      };
+    };
+    /** @description Not found */
+    NOT_FOUND_404: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Method not allowed */
+    METHOD_NOT_ALLOWED_405: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Not acceptable */
+    NOT_ACCEPTABLE_406: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Request timeout */
+    REQUEST_TIMEOUT_408: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Conflict */
+    CONFLICT_409: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Unsupported media type */
+    UNSUPPORTED_MEDIA_TYPE_415: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Too many requests */
+    TOO_MANY_REQUESTS_429: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Internal server error */
+    INTERNAL_SERVER_ERROR_500: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+    /** @description Service unavailable */
+    SERVICE_UNAVAILABLE_503: {
+      headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
+        [name: string]: unknown;
+      };
+      content?: never;
+    };
+  };
+  parameters: {
+    /** @description taskId of the asynch job
+     *      */
+    "task-id": components["schemas"]["taskId"];
+    /** @description If it is set to 'true', the customer will be automatically redirect to Redirect-URI(if is set) after 9 seconds, otherwise the last page will wait for customer action to click to button
+     *      */
+    "Automatic-Redirect": string;
+    /** @description URI of the client application endpoint, where the user shall be redirected to after payment process. URI has to be registered in Developer portal
+     *      */
+    "Redirect-URI": string;
+    /** @description URI of the client application webhook endpoint, where the user shall be sent notifications
+     *      */
+    "Webhook-URI": string;
+    /**
+     * @description ID of the request, unique to the call, as determined by the initiating party.
+     * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+     */
+    "X-Request-ID": string;
+    /**
+     * @description An idempotency key is a unique value generated by the client which the resource server uses to recognize subsequent retries of the same request. The Idempotency-Key HTTP request header field carries this key.
+     * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+     */
+    "Idempotency-Key": string;
+    /**
+     * @description The forwarded IP address of the user
+     *
+     * @example 192.168.8.78
+     */
+    "IP-Address": string;
+    /**
+     * @description Signature for payment body
+     *
+     * @example 8a91ea4e87c3db6c695051c5ac72498c54099114fc83554fdfabb784b485eea4
+     */
+    Signature: string;
+    /**
+     * @description Preferred payment intent method
+     *
+     * @example BANK_TRANSFER
+     */
+    "Preferred-Method": components["schemas"]["paymentMethod"];
+    /**
+     * @description Timestamp. Only +/-1h from UTC(GMT)
+     *
+     * @example 1092014125505
+     */
+    Timestamp: string;
+    /** @description The user id, if available.
+     *      */
+    "User-Id": string;
+    /**
+     * @description The "Accept-Language" header field is used by user agents to indicate the set of natural languages that are preferred. Available "en" and "sk"
+     * @example sk
+     */
+    "Accept-Language": "en" | "sk";
+    /** @description payment intent identifier
+     *      */
+    "Payment-id": string;
+  };
+  requestBodies: {
+    authTokenRequest: {
+      content: {
+        "application/x-www-form-urlencoded": {
+          /** @example client_credentials */
+          grant_type: string;
+          /** @example dd */
+          client_id: string;
+          /** @example dd */
+          client_secret: string;
+          /** @example TATRAPAYPLUS */
+          scope: string;
+        };
+      };
+    };
+    /** @description DirectAPI transaction */
+    initiateDirectTransaction: {
+      content: {
+        "application/json": components["schemas"]["initiateDirectTransactionRequest"];
+      };
+    };
+    /** @description
+     *     **The table bellow describes required objects for specific payment method**
+     *
+     *     | Base structures      | Mandatory for Payment method  |
+     *     | ---------------- | ------------|
+     *     | basePayment    | Always mandatory     |
+     *     | userData              | CARD_PAY,  PAY_LATER|
+     *
+     *     | Method specific structures      | Mandatory for Payment method  |
+     *     | ---------------- | ------------|
+     *     | bankTransfer              | BANK_TRANSFER, QR_PAY |
+     *     | cardDetail              | CARD_PAY|
+     *     | payLater              | PAY_LATER|
+     *      */
+    initiatePaymentBody: {
+      content: {
+        "application/json": components["schemas"]["initiatePaymentRequest"];
+      };
+    };
+    /** @description
+     *     **TatraPayPlus update request**
+     *
+     *     | Payment method      | mandatory structure |
+     *     | ---------------- | ------------|
+     *     | BANK_TRANSFER              | N/A     |
+     *     | CARD_PAY              | cardPayUpdateInstruction |
+     *     | PAY_LATER               | N/A |
+     *      */
+    updatePaymentBody: {
+      content: {
+        "application/json": components["schemas"]["udpatePaymentRequest"];
+      };
+    };
+    /** @description Appearance request body */
+    appearanceBody: {
+      content: {
+        "application/json": components["schemas"]["appearanceRequest"];
+      };
+    };
+    logoBody: {
+      content: {
+        "application/json": components["schemas"]["appearanceLogoRequest"];
+      };
+    };
+  };
+  headers: {
+    /**
+     * @description ID of the request, unique to the call, as determined by the initiating party.
+     * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+     */
+    "X-Request-ID": string;
+  };
+  pathItems: never;
+}
+export type $defs = Record<string, never>;
+export interface operations {
+  initiatePayment: {
     parameters: {
-        /** @description taskId of the asynch job
-         *      */
-        "task-id": components["schemas"]["taskId"];
-        /** @description If it is set to 'true', the customer will be automatically redirect to Redirect-URI(if is set) after 9 seconds, otherwise the last page will wait for customer action to click to button
-         *      */
-        "Automatic-Redirect": string;
-        /** @description URI of the client application endpoint, where the user shall be redirected to after payment process. URI has to be registered in Developer portal
-         *      */
-        "Redirect-URI": string;
-        /** @description URI of the client application webhook endpoint, where the user shall be sent notifications
-         *      */
-        "Webhook-URI": string;
+      query?: never;
+      header: {
         /**
          * @description ID of the request, unique to the call, as determined by the initiating party.
          * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
          */
-        "X-Request-ID": string;
-        /**
-         * @description An idempotency key is a unique value generated by the client which the resource server uses to recognize subsequent retries of the same request. The Idempotency-Key HTTP request header field carries this key.
-         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-         */
-        "Idempotency-Key": string;
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
         /**
          * @description The forwarded IP address of the user
          *
          * @example 192.168.8.78
          */
-        "IP-Address": string;
-        /**
-         * @description Signature for payment body
-         *
-         * @example 8a91ea4e87c3db6c695051c5ac72498c54099114fc83554fdfabb784b485eea4
-         */
-        Signature: string;
+        "IP-Address": components["parameters"]["IP-Address"];
+        /** @description URI of the client application endpoint, where the user shall be redirected to after payment process. URI has to be registered in Developer portal
+         *      */
+        "Redirect-URI": components["parameters"]["Redirect-URI"];
         /**
          * @description Preferred payment intent method
          *
          * @example BANK_TRANSFER
          */
-        "Preferred-Method": components["schemas"]["paymentMethod"];
-        /**
-         * @description Timestamp. Only +/-1h from UTC(GMT)
-         *
-         * @example 1092014125505
-         */
-        Timestamp: string;
-        /** @description The user id, if available.
-         *      */
-        "User-Id": string;
+        "Preferred-Method"?: components["parameters"]["Preferred-Method"];
         /**
          * @description The "Accept-Language" header field is used by user agents to indicate the set of natural languages that are preferred. Available "en" and "sk"
          * @example sk
          */
-        "Accept-Language": "en" | "sk";
-        /** @description payment intent identifier
-         *      */
-        "Payment-id": string;
+        "Accept-Language"?: components["parameters"]["Accept-Language"];
+      };
+      path?: never;
+      cookie?: never;
     };
-    requestBodies: {
-        authTokenRequest: {
-            content: {
-                "application/x-www-form-urlencoded": {
-                    /** @example client_credentials */
-                    grant_type: string;
-                    /** @example dd */
-                    client_id: string;
-                    /** @example dd */
-                    client_secret: string;
-                    /** @example TATRAPAYPLUS */
-                    scope: string;
-                };
-            };
-        };
-        /** @description DirectAPI transaction */
-        initiateDirectTransaction: {
-            content: {
-                "application/json": components["schemas"]["initiateDirectTransactionRequest"];
-            };
-        };
-        /** @description
-         *     **The table bellow describes required objects for specific payment method**
-         *
-         *     | Base structures      | Mandatory for Payment method  |
-         *     | ---------------- | ------------|
-         *     | basePayment    | Always mandatory     |
-         *     | userData              | CARD_PAY,  PAY_LATER|
-         *
-         *     | Method specific structures      | Mandatory for Payment method  |
-         *     | ---------------- | ------------|
-         *     | bankTransfer              | BANK_TRANSFER, QR_PAY |
-         *     | cardDetail              | CARD_PAY|
-         *     | payLater              | PAY_LATER|
-         *      */
-        initiatePaymentBody: {
-            content: {
-                "application/json": components["schemas"]["initiatePaymentRequest"];
-            };
-        };
-        /** @description
-         *     **TatraPayPlus update request**
-         *
-         *     | Payment method      | mandatory structure |
-         *     | ---------------- | ------------|
-         *     | BANK_TRANSFER              | N/A     |
-         *     | CARD_PAY              | cardPayUpdateInstruction |
-         *     | PAY_LATER               | N/A |
-         *      */
-        updatePaymentBody: {
-            content: {
-                "application/json": components["schemas"]["udpatePaymentRequest"];
-            };
-        };
-        /** @description Appearance request body */
-        appearanceBody: {
-            content: {
-                "application/json": components["schemas"]["appearanceRequest"];
-            };
-        };
-        logoBody: {
-            content: {
-                "application/json": components["schemas"]["appearanceLogoRequest"];
-            };
-        };
+    requestBody: components["requestBodies"]["initiatePaymentBody"];
+    responses: {
+      201: components["responses"]["OK_201_InitiatePaymentResponse"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
     };
-    headers: {
+  };
+  getMethods: {
+    parameters: {
+      query?: never;
+      header: {
         /**
          * @description ID of the request, unique to the call, as determined by the initiating party.
          * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
          */
-        "X-Request-ID": string;
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
+      };
+      path?: never;
+      cookie?: never;
     };
-    pathItems: never;
-}
-export type $defs = Record<string, never>;
-export interface operations {
-    initiatePayment: {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description ID of the request, unique to the call, as determined by the initiating party.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "X-Request-ID": components["parameters"]["X-Request-ID"];
-                /**
-                 * @description The forwarded IP address of the user
-                 *
-                 * @example 192.168.8.78
-                 */
-                "IP-Address": components["parameters"]["IP-Address"];
-                /** @description URI of the client application endpoint, where the user shall be redirected to after payment process. URI has to be registered in Developer portal
-                 *      */
-                "Redirect-URI": components["parameters"]["Redirect-URI"];
-                /**
-                 * @description Preferred payment intent method
-                 *
-                 * @example BANK_TRANSFER
-                 */
-                "Preferred-Method"?: components["parameters"]["Preferred-Method"];
-                /**
-                 * @description The "Accept-Language" header field is used by user agents to indicate the set of natural languages that are preferred. Available "en" and "sk"
-                 * @example sk
-                 */
-                "Accept-Language"?: components["parameters"]["Accept-Language"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: components["requestBodies"]["initiatePaymentBody"];
-        responses: {
-            201: components["responses"]["OK_201_InitiatePaymentResponse"];
-            400: components["responses"]["BAD_REQUEST_400"];
-            401: components["responses"]["UNAUTHORIZED_401"];
-            403: components["responses"]["FORBIDDEN_403"];
-            404: components["responses"]["NOT_FOUND_404"];
-            405: components["responses"]["METHOD_NOT_ALLOWED_405"];
-            406: components["responses"]["NOT_ACCEPTABLE_406"];
-            408: components["responses"]["REQUEST_TIMEOUT_408"];
-            409: components["responses"]["CONFLICT_409"];
-            415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
-            429: components["responses"]["TOO_MANY_REQUESTS_429"];
-            500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
-            503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-        };
+    requestBody?: never;
+    responses: {
+      200: components["responses"]["OK_200_PaymentMethodsList"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
     };
-    getMethods: {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description ID of the request, unique to the call, as determined by the initiating party.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "X-Request-ID": components["parameters"]["X-Request-ID"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: components["responses"]["OK_200_PaymentMethodsList"];
-            400: components["responses"]["BAD_REQUEST_400"];
-            401: components["responses"]["UNAUTHORIZED_401"];
-            403: components["responses"]["FORBIDDEN_403"];
-            404: components["responses"]["NOT_FOUND_404"];
-            405: components["responses"]["METHOD_NOT_ALLOWED_405"];
-            406: components["responses"]["NOT_ACCEPTABLE_406"];
-            408: components["responses"]["REQUEST_TIMEOUT_408"];
-            409: components["responses"]["CONFLICT_409"];
-            415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
-            429: components["responses"]["TOO_MANY_REQUESTS_429"];
-            500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
-            503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-        };
+  };
+  getPaymentIntentStatus: {
+    parameters: {
+      query?: never;
+      header: {
+        /**
+         * @description ID of the request, unique to the call, as determined by the initiating party.
+         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+         */
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
+      };
+      path: {
+        /** @description payment intent identifier
+         *      */
+        "payment-id": components["parameters"]["Payment-id"];
+      };
+      cookie?: never;
     };
-    getPaymentIntentStatus: {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description ID of the request, unique to the call, as determined by the initiating party.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "X-Request-ID": components["parameters"]["X-Request-ID"];
-            };
-            path: {
-                /** @description payment intent identifier
-                 *      */
-                "payment-id": components["parameters"]["Payment-id"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: components["responses"]["OK_200_PaymentIntentStatus"];
-            400: components["responses"]["BAD_REQUEST_400"];
-            401: components["responses"]["UNAUTHORIZED_401"];
-            403: components["responses"]["FORBIDDEN_403"];
-            404: components["responses"]["NOT_FOUND_404"];
-            405: components["responses"]["METHOD_NOT_ALLOWED_405"];
-            406: components["responses"]["NOT_ACCEPTABLE_406"];
-            408: components["responses"]["REQUEST_TIMEOUT_408"];
-            409: components["responses"]["CONFLICT_409"];
-            415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
-            429: components["responses"]["TOO_MANY_REQUESTS_429"];
-            500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
-            503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-        };
+    requestBody?: never;
+    responses: {
+      200: components["responses"]["OK_200_PaymentIntentStatus"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
     };
-    cancelPaymentIntent: {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description ID of the request, unique to the call, as determined by the initiating party.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "X-Request-ID": components["parameters"]["X-Request-ID"];
-            };
-            path: {
-                /** @description payment intent identifier
-                 *      */
-                "payment-id": components["parameters"]["Payment-id"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: components["responses"]["OK_200_PaymentIntentCancelation"];
-            400: components["responses"]["BAD_REQUEST_400"];
-            401: components["responses"]["UNAUTHORIZED_401"];
-            403: components["responses"]["FORBIDDEN_403"];
-            404: components["responses"]["NOT_FOUND_404"];
-            405: components["responses"]["METHOD_NOT_ALLOWED_405"];
-            406: components["responses"]["NOT_ACCEPTABLE_406"];
-            408: components["responses"]["REQUEST_TIMEOUT_408"];
-            409: components["responses"]["CONFLICT_409"];
-            415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
-            429: components["responses"]["TOO_MANY_REQUESTS_429"];
-            500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
-            503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-        };
+  };
+  cancelPaymentIntent: {
+    parameters: {
+      query?: never;
+      header: {
+        /**
+         * @description ID of the request, unique to the call, as determined by the initiating party.
+         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+         */
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
+      };
+      path: {
+        /** @description payment intent identifier
+         *      */
+        "payment-id": components["parameters"]["Payment-id"];
+      };
+      cookie?: never;
     };
-    updatePaymentIntent: {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description ID of the request, unique to the call, as determined by the initiating party.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "X-Request-ID": components["parameters"]["X-Request-ID"];
-                /**
-                 * @description An idempotency key is a unique value generated by the client which the resource server uses to recognize subsequent retries of the same request. The Idempotency-Key HTTP request header field carries this key.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "Idempotency-Key": components["parameters"]["Idempotency-Key"];
-            };
-            path: {
-                /** @description payment intent identifier
-                 *      */
-                "payment-id": components["parameters"]["Payment-id"];
-            };
-            cookie?: never;
-        };
-        requestBody: components["requestBodies"]["updatePaymentBody"];
-        responses: {
-            200: components["responses"]["OK_200_PaymentIntentUpdate"];
-            400: components["responses"]["BAD_REQUEST_400"];
-            401: components["responses"]["UNAUTHORIZED_401"];
-            403: components["responses"]["FORBIDDEN_403"];
-            404: components["responses"]["NOT_FOUND_404"];
-            405: components["responses"]["METHOD_NOT_ALLOWED_405"];
-            406: components["responses"]["NOT_ACCEPTABLE_406"];
-            408: components["responses"]["REQUEST_TIMEOUT_408"];
-            409: components["responses"]["CONFLICT_409"];
-            415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
-            429: components["responses"]["TOO_MANY_REQUESTS_429"];
-            500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
-            503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-        };
+    requestBody?: never;
+    responses: {
+      200: components["responses"]["OK_200_PaymentIntentCancelation"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
     };
-    createDirectTransactionRequest: {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description ID of the request, unique to the call, as determined by the initiating party.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "X-Request-ID": components["parameters"]["X-Request-ID"];
-                /**
-                 * @description The forwarded IP address of the user
-                 *
-                 * @example 192.168.8.78
-                 */
-                "IP-Address": components["parameters"]["IP-Address"];
-                /** @description URI of the client application endpoint, where the user shall be redirected to after payment process. URI has to be registered in Developer portal
-                 *      */
-                "Redirect-URI": components["parameters"]["Redirect-URI"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: components["requestBodies"]["initiateDirectTransaction"];
-        responses: {
-            200: components["responses"]["OK_201_InitiateDirectAPITransactionResponse"];
-            400: components["responses"]["BAD_REQUEST_400"];
-            401: components["responses"]["UNAUTHORIZED_401"];
-            403: components["responses"]["FORBIDDEN_403"];
-            404: components["responses"]["NOT_FOUND_404"];
-            405: components["responses"]["METHOD_NOT_ALLOWED_405"];
-            406: components["responses"]["NOT_ACCEPTABLE_406"];
-            408: components["responses"]["REQUEST_TIMEOUT_408"];
-            409: components["responses"]["CONFLICT_409"];
-            415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
-            429: components["responses"]["TOO_MANY_REQUESTS_429"];
-            500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
-            503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-        };
+  };
+  updatePaymentIntent: {
+    parameters: {
+      query?: never;
+      header: {
+        /**
+         * @description ID of the request, unique to the call, as determined by the initiating party.
+         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+         */
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
+        /**
+         * @description An idempotency key is a unique value generated by the client which the resource server uses to recognize subsequent retries of the same request. The Idempotency-Key HTTP request header field carries this key.
+         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+         */
+        "Idempotency-Key": components["parameters"]["Idempotency-Key"];
+      };
+      path: {
+        /** @description payment intent identifier
+         *      */
+        "payment-id": components["parameters"]["Payment-id"];
+      };
+      cookie?: never;
     };
-    setAppearance: {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description ID of the request, unique to the call, as determined by the initiating party.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "X-Request-ID": components["parameters"]["X-Request-ID"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: components["requestBodies"]["appearanceBody"];
-        responses: {
-            201: components["responses"]["OK_201_Appearance_created"];
-            400: components["responses"]["BAD_REQUEST_400"];
-            401: components["responses"]["UNAUTHORIZED_401"];
-            403: components["responses"]["FORBIDDEN_403"];
-            404: components["responses"]["NOT_FOUND_404"];
-            405: components["responses"]["METHOD_NOT_ALLOWED_405"];
-            406: components["responses"]["NOT_ACCEPTABLE_406"];
-            408: components["responses"]["REQUEST_TIMEOUT_408"];
-            409: components["responses"]["CONFLICT_409"];
-            415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
-            429: components["responses"]["TOO_MANY_REQUESTS_429"];
-            500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
-            503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-        };
+    requestBody: components["requestBodies"]["updatePaymentBody"];
+    responses: {
+      200: components["responses"]["OK_200_PaymentIntentUpdate"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
     };
-    setLogo: {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description ID of the request, unique to the call, as determined by the initiating party.
-                 * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-                 */
-                "X-Request-ID": components["parameters"]["X-Request-ID"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: components["requestBodies"]["logoBody"];
-        responses: {
-            201: components["responses"]["OK_201_Logo_created"];
-            400: components["responses"]["BAD_REQUEST_400"];
-            401: components["responses"]["UNAUTHORIZED_401"];
-            403: components["responses"]["FORBIDDEN_403"];
-            404: components["responses"]["NOT_FOUND_404"];
-            405: components["responses"]["METHOD_NOT_ALLOWED_405"];
-            406: components["responses"]["NOT_ACCEPTABLE_406"];
-            408: components["responses"]["REQUEST_TIMEOUT_408"];
-            409: components["responses"]["CONFLICT_409"];
-            415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
-            429: components["responses"]["TOO_MANY_REQUESTS_429"];
-            500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
-            503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-        };
+  };
+  createDirectTransactionRequest: {
+    parameters: {
+      query?: never;
+      header: {
+        /**
+         * @description ID of the request, unique to the call, as determined by the initiating party.
+         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+         */
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
+        /**
+         * @description The forwarded IP address of the user
+         *
+         * @example 192.168.8.78
+         */
+        "IP-Address": components["parameters"]["IP-Address"];
+        /** @description URI of the client application endpoint, where the user shall be redirected to after payment process. URI has to be registered in Developer portal
+         *      */
+        "Redirect-URI": components["parameters"]["Redirect-URI"];
+      };
+      path?: never;
+      cookie?: never;
     };
-    getAccessToken: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: components["requestBodies"]["authTokenRequest"];
-        responses: {
-            200: components["responses"]["OK_200_AuthTokenSuccess"];
-            400: components["responses"]["UNAUTHORIZED_401_AuthTokenError"];
-        };
+    requestBody: components["requestBodies"]["initiateDirectTransaction"];
+    responses: {
+      200: components["responses"]["OK_201_InitiateDirectAPITransactionResponse"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
     };
+  };
+  setAppearance: {
+    parameters: {
+      query?: never;
+      header: {
+        /**
+         * @description ID of the request, unique to the call, as determined by the initiating party.
+         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+         */
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: components["requestBodies"]["appearanceBody"];
+    responses: {
+      201: components["responses"]["OK_201_Appearance_created"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
+    };
+  };
+  setLogo: {
+    parameters: {
+      query?: never;
+      header: {
+        /**
+         * @description ID of the request, unique to the call, as determined by the initiating party.
+         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+         */
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: components["requestBodies"]["logoBody"];
+    responses: {
+      201: components["responses"]["OK_201_Logo_created"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
+    };
+  };
+  getAccessToken: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: components["requestBodies"]["authTokenRequest"];
+    responses: {
+      200: components["responses"]["OK_200_AuthTokenSuccess"];
+      400: components["responses"]["UNAUTHORIZED_401_AuthTokenError"];
+    };
+  };
 }
