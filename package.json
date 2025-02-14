@@ -2,7 +2,8 @@
   "name": "@tatrabanka/tatrapayplus-node",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
     "test": "vitest",
