@@ -1,9 +1,9 @@
 {
   "name": "@tatrabanka/tatrapayplus-node",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc",
     "test": "vitest",
@@ -34,9 +34,10 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.23.0",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.6"
   },
   "dependencies": {
+    "credit-card-type": "^10.0.2",
     "openapi-fetch": "^0.13.4"
   }
 }

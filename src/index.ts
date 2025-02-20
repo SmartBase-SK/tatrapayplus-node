@@ -1,8 +1,9 @@
 import { GatewayMode, Scopes } from "./enums";
 import createClient, { ClientOptions, Middleware } from "openapi-fetch";
-import { components, paths } from "./paths";
+import { operations, paths } from "./paths";
 import { randomUUID } from "node:crypto";
 import {
+  getSavedCardData,
   getSimpleStatus,
   removeCharacterFromStrings,
   removeDiacritics,
@@ -13,6 +14,7 @@ import { PaymentMethodsParams } from "./types";
 export class TBPlusSDK {
   private clientId: string;
   private clientSecret: string;
+  private clientIp: string;
   private mode: GatewayMode;
   private scopes: Scopes[];
   private clientVersion: string = "1.0.0";
@@ -26,6 +28,7 @@ export class TBPlusSDK {
   constructor(
     clientId: string,
     clientSecret: string,
+    clientIp: string,
     sdkOptions: {
       mode?: GatewayMode;
       scopes?: Scopes[];
@@ -43,6 +46,7 @@ export class TBPlusSDK {
 
     this.clientId = clientId;
     this.clientSecret = clientSecret;
+    this.clientIp = clientIp;
     this.scopes = sdkOptions.scopes ?? [Scopes.TATRAPAYPLUS];
     this.apiClient = createClient<paths>({
       baseUrl: this.baseUrl,
@@ -108,7 +112,7 @@ export class TBPlusSDK {
       string
     > = {
       "X-Request-ID": randomUUID(),
-      "IP-Address": "127.0.0.1",
+      "IP-Address": this.clientIp,
       "User-Agent": `Tatrapayplus-plugin/${this.clientVersion}/Node.js`,
     };
     return defaultHeaders;
@@ -152,12 +156,25 @@ export class TBPlusSDK {
   public async createPayment(
     body: paths["/v1/payments"]["post"]["requestBody"]["content"]["application/json"],
     redirectUri: string,
+    language: operations["initiatePayment"]["parameters"]["header"]["Accept-Language"] = undefined,
+    preferredMethod: operations["initiatePayment"]["parameters"]["header"]["Preferred-Method"] = undefined,
     fetchOptions = {},
   ) {
     body = this.preProcessCreatePaymentBody(body);
+    const headers: operations["initiatePayment"]["parameters"]["header"] = {
+      ...this.getDefaultHeaders(),
+      "Redirect-URI": redirectUri,
+    };
+    if (language) {
+      headers["Accept-Language"] = language;
+    }
+
+    if (preferredMethod) {
+      headers["Preferred-Method"] = preferredMethod;
+    }
     return this.apiClient.POST("/v1/payments", {
       params: {
-        header: { ...this.getDefaultHeaders(), "Redirect-URI": redirectUri },
+        header: headers,
       },
       body: body,
       ...fetchOptions,
@@ -224,6 +241,7 @@ export class TBPlusSDK {
     return {
       ...response,
       simpleStatus: response.data ? getSimpleStatus(response.data) : null,
+      savedCard: response.data ? getSavedCardData(response.data) : null,
     };
   }
 

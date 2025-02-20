@@ -88,6 +88,7 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
+      "192.0.2.123",
     );
     server.use(
       http.get(`${sdk.baseUrl}/v1/payments/methods`, () =>
@@ -103,6 +104,7 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
+      "192.0.2.123",
     );
     let attempt = 0;
     server.use(
@@ -125,6 +127,7 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
+      "192.0.2.123",
     );
     server.use(
       http.get(`${sdk.baseUrl}/v1/payments/methods`, () => {
@@ -208,5 +211,103 @@ describe("TBPlusSDK Mocked suit", () => {
     expect(data_7?.map((item) => item.paymentMethod).sort()).toStrictEqual(
       [PaymentMethod.DIRECT_API, PaymentMethod.CARD_PAY].sort(),
     );
+  });
+
+  it("test save card", async () => {
+    const sdk = new TBPlusSDK(
+      process.env.API_KEY as string,
+      process.env.API_SECRET as string,
+      "192.0.2.123",
+    );
+    server.use(
+      http.get(
+        `${sdk.baseUrl}/v1/payments/673e6841-5f70-4fd2-8b35-482be6da436e/status`,
+        () => {
+          const getPaymentStatusResponse = {
+            selectedPaymentMethod: "CARD_PAY",
+            authorizationStatus: "AUTH_DONE",
+            status: {
+              amount: 200,
+              comfortPay: {
+                status: "OK",
+                cid: "123456789",
+              },
+              currency: "EUR",
+              maskedCardNumber: "440577******5558",
+              status: "OK",
+            },
+          };
+          return HttpResponse.json(getPaymentStatusResponse, {
+            status: 200,
+          });
+        },
+      ),
+      http.get(
+        `${sdk.baseUrl}/v1/payments/173e6841-5f70-4fd2-8b35-482be6da436e/status`,
+        () => {
+          const getPaymentStatusResponse = {
+            selectedPaymentMethod: "CARD_PAY",
+            authorizationStatus: "AUTH_DONE",
+            status: {
+              amount: 200,
+              comfortPay: {
+                status: "OK",
+                cid: "123456789",
+              },
+              currency: "EUR",
+              maskedCardNumber: "512345******0008",
+              status: "OK",
+            },
+          };
+          return HttpResponse.json(getPaymentStatusResponse, {
+            status: 200,
+          });
+        },
+      ),
+      http.get(
+        `${sdk.baseUrl}/v1/payments/273e6841-5f70-4fd2-8b35-482be6da436e/status`,
+        () => {
+          const getPaymentStatusResponse = {
+            selectedPaymentMethod: "CARD_PAY",
+            authorizationStatus: "PAY_METHOD_SELECTED",
+          };
+          return HttpResponse.json(getPaymentStatusResponse, {
+            status: 200,
+          });
+        },
+      ),
+      http.get(
+        `${sdk.baseUrl}/v1/payments/373e6841-5f70-4fd2-8b35-482be6da436e/status`,
+        () => {
+          const getPaymentStatusResponse = {
+            selectedPaymentMethod: "BANK_TRANSFER",
+            authorizationStatus: "AUTH_DONE",
+            status: "ACCC",
+          };
+          return HttpResponse.json(getPaymentStatusResponse, {
+            status: 200,
+          });
+        },
+      ),
+    );
+    const { savedCard: savedCard_1 } = await sdk.getPaymentStatus(
+      "673e6841-5f70-4fd2-8b35-482be6da436e",
+    );
+    expect(savedCard_1?.creditCard?.type).toBe("visa");
+
+    const { savedCard: savedCard_2 } = await sdk.getPaymentStatus(
+      "173e6841-5f70-4fd2-8b35-482be6da436e",
+    );
+    expect(savedCard_2?.creditCard?.type).toBe("mastercard");
+
+    const { savedCard: savedCard_3 } = await sdk.getPaymentStatus(
+      "273e6841-5f70-4fd2-8b35-482be6da436e",
+    );
+    expect(savedCard_3?.creditCard, "No card, If not finished").toBeUndefined();
+
+    const { savedCard: savedCard_4 } = await sdk.getPaymentStatus(
+      "373e6841-5f70-4fd2-8b35-482be6da436e",
+    );
+    expect(savedCard_4?.creditCard, "No card, If not CARD_PAY").toBeUndefined();
   });
 });

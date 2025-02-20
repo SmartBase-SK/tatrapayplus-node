@@ -13,6 +13,7 @@ describe("TBPlusSDK tests on live", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
+      "192.0.2.123",
     );
     const { data, error } = await sdk.getPaymentMethods();
     expect(error).toBeUndefined();
@@ -27,6 +28,7 @@ describe("TBPlusSDK tests on live", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
+      "192.0.2.123",
     );
     const { data, error } = await sdk.createPayment(
       {
@@ -66,6 +68,7 @@ describe("TBPlusSDK tests on live", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
+      "192.0.2.123",
     );
     const { data, error } = await sdk.createPayment(
       {
@@ -130,6 +133,7 @@ describe("TBPlusSDK tests on live", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
+      "192.0.2.123",
       {
         createClientParams: {
           fetch: mockFetch,

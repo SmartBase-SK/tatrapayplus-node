@@ -1,6 +1,7 @@
 import { components } from "./paths";
 import { PaymentStatuses } from "./types";
 import { PaymentMethod, SimpleStatus } from "./enums";
+import creditCardType from "credit-card-type";
 
 export function removeDiacritics(str: string): string {
   return str
@@ -78,6 +79,35 @@ export function getSimpleStatus(
     return SimpleStatus.REJECTED;
   }
   return SimpleStatus.PENDING;
+}
+
+export function getSavedCardData(
+  paymentStatus: components["schemas"]["paymentIntentStatusResponse"],
+) {
+  let savedCardData;
+  const isCardPayment =
+    paymentStatus.selectedPaymentMethod == PaymentMethod.CARD_PAY;
+  if (!isCardPayment || typeof paymentStatus.status !== "object") {
+    return savedCardData;
+  }
+  if (
+    paymentStatus.status.comfortPay?.cid &&
+    paymentStatus.status.comfortPay.status == "OK"
+  ) {
+    let resultCreditCard;
+    if (paymentStatus.status.maskedCardNumber) {
+      resultCreditCard = creditCardType(
+        paymentStatus.status.maskedCardNumber.substring(0, 4),
+      )[0];
+    }
+
+    savedCardData = {
+      cid: paymentStatus.status.comfortPay.cid,
+      maskedCardNumber: paymentStatus.status.maskedCardNumber,
+      creditCard: resultCreditCard,
+    };
+  }
+  return savedCardData;
 }
 
 export const paymentMethodStatuses: Record<PaymentMethod, PaymentStatuses> = {
