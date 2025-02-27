@@ -209,7 +209,6 @@ export interface components {
       /**
        * @description Status of payment intent authorization progress. Be aware, It doesnt indicate payment status! To get payment status see attribute status.
        * @enum {string}
-       *
        */
       authorizationStatus:
         | "NEW"
@@ -382,6 +381,7 @@ export interface components {
      *
      *     | Enum      | description |
      *     | ---------------- | ------------|
+     *     | INIT              | initialized transaction     |
      *     | OK              | processed successfully transaction     |
      *     | FAIL              | failed transaction |
      *     | PA              | pre-authorization |
@@ -393,9 +393,11 @@ export interface components {
      *     | AUTH_EXPIRED               | authorization expired |
      *     | AUTH_CANCELED               | authorization canceled |
      *
+     * @example OK
      * @enum {string}
      */
     cardPayStatus:
+      | "INIT"
       | "OK"
       | "FAIL"
       | "PA"
@@ -1084,7 +1086,7 @@ export interface components {
      * @description The "Accept-Language" header field is used by user agents to indicate the set of natural languages that are preferred. Available "en" and "sk"
      * @example sk
      */
-    "Accept-Language": "en" | "sk";
+    "Accept-Language": "sk" | "en" | "de" | "hu" | "cz" | "es" | "pl";
     /** @description payment intent identifier
      *      */
     "Payment-id": string;
