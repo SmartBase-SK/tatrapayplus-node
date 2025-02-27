@@ -1,6 +1,6 @@
 {
   "name": "@tatrabanka/tatrapayplus-node",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,6 +23,7 @@
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@types/node": "^22.13.1",
+    "@vitest/coverage-v8": "^3.0.6",
     "dotenv": "^16.4.7",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",

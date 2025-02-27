@@ -181,15 +181,27 @@ describe("TBPlusSDK tests on live", () => {
     expect(requestBody.cardDetail.cardHolder).toBe("lsctzyaieao Hruska");
     expect(requestBody.userData.firstName).toBe("Jožko");
     expect(requestBody.userData.lastName).toBe("Hruška");
-    if (data) {
-      expect(getAvailable(data.availablePaymentMethods)).toStrictEqual(
-        [
-          PaymentMethod.BANK_TRANSFER,
-          PaymentMethod.CARD_PAY,
-          PaymentMethod.QR_PAY,
-          PaymentMethod.PAY_LATER,
-        ].sort(),
-      );
+    if (!data) {
+      return;
     }
+    expect(getAvailable(data.availablePaymentMethods)).toStrictEqual(
+      [
+        PaymentMethod.BANK_TRANSFER,
+        PaymentMethod.CARD_PAY,
+        PaymentMethod.QR_PAY,
+        PaymentMethod.PAY_LATER,
+      ].sort(),
+    );
+
+    const { response, error: cancelErrors } = await sdk.cancelPayment(
+      data.paymentId,
+    );
+    expect(cancelErrors).toBeUndefined();
+    expect(response.status).toBe(200);
+
+    const { response: response2, error: cancelErrors2 } =
+      await sdk.cancelPayment(data.paymentId);
+    expect(cancelErrors2).toBeTruthy();
+    expect(response2.status).toBe(400);
   });
 });

@@ -1,21 +1,24 @@
 import { GatewayMode, Scopes } from "./enums";
 import createClient, { ClientOptions, Middleware } from "openapi-fetch";
 import { operations, paths } from "./paths";
-import { randomUUID } from "node:crypto";
+import { constants, publicEncrypt, randomUUID } from "node:crypto";
 import {
   getSavedCardData,
   getSimpleStatus,
-  removeCharacterFromStrings,
+  removeSpecialCharactersFromStrings,
   removeDiacritics,
   trimAndRemoveSpecialCharacters,
 } from "./helpers";
 import { PaymentMethodsParams } from "./types";
+import fs from "node:fs";
+import path from "node:path";
 
 export class TBPlusSDK {
   private clientId: string;
   private clientSecret: string;
   private clientIp: string;
   private mode: GatewayMode;
+  private originalRequest: Request | undefined;
   private scopes: Scopes[];
   private clientVersion: string = "1.0.0";
   private retryStatues: number[] = [500, 502, 503, 504];
@@ -79,10 +82,14 @@ export class TBPlusSDK {
   getRetryMiddleware(maxRetries = 3, delay = 100): Middleware {
     return {
       onRequest: async ({ request }) => {
+        this.originalRequest = request;
         return request.clone();
       },
-      onResponse: async ({ request, response }) => {
-        if (!this.retryStatues.includes(response.status)) {
+      onResponse: async ({ response }) => {
+        if (
+          !this.retryStatues.includes(response.status) ||
+          !this.originalRequest
+        ) {
           return response;
         }
         let attempt = 0;
@@ -93,7 +100,7 @@ export class TBPlusSDK {
           console.log(`Retry attempt ${attempt + 1}, waiting ${waitTime}ms`);
           await new Promise((res) => setTimeout(res, waitTime));
 
-          lastResponse = await fetch(request);
+          lastResponse = await fetch(this.originalRequest.clone());
           if (!this.retryStatues.includes(lastResponse.status)) {
             return lastResponse; // Successful response, return it
           }
@@ -118,7 +125,7 @@ export class TBPlusSDK {
     return defaultHeaders;
   }
 
-  private async fetchAccessToken(): Promise<string | undefined> {
+  public async fetchAccessToken(): Promise<string | undefined> {
     const { data, error } = await this.apiClient.POST("/auth/oauth/v2/token", {
       headers: {
         "content-type": "application/x-www-form-urlencoded",
@@ -134,7 +141,9 @@ export class TBPlusSDK {
       },
     });
     if (error) {
-      throw Error("Unable to retrieve access token" + error.error_description);
+      throw Error(
+        "Unable to retrieve access token: " + error?.error_description,
+      );
     } else {
       return data.access_token;
     }
@@ -143,7 +152,7 @@ export class TBPlusSDK {
   public preProcessCreatePaymentBody(
     body: paths["/v1/payments"]["post"]["requestBody"]["content"]["application/json"],
   ) {
-    body = removeCharacterFromStrings(body);
+    body = removeSpecialCharactersFromStrings(body);
 
     if (body.cardDetail?.cardHolder) {
       body.cardDetail.cardHolder = trimAndRemoveSpecialCharacters(
@@ -265,6 +274,7 @@ export class TBPlusSDK {
         header: { ...this.getDefaultHeaders() },
         path: { "payment-id": paymentId },
       },
+      parseAs: "stream",
     });
   }
 
@@ -296,5 +306,33 @@ export class TBPlusSDK {
       },
       body: body,
     });
+  }
+
+  public generateSignedCardIdFromCid(
+    cid: string,
+    publicKeyContent: string | null = null,
+  ): string | null {
+    if (!publicKeyContent) {
+      try {
+        publicKeyContent = fs.readFileSync(
+          path.join(__dirname, "../data/ECID_PUBLIC_KEY_2023.txt"),
+          "utf8",
+        );
+      } catch (error) {
+        console.error("Error reading public key file:", error);
+        return null;
+      }
+    }
+    const bufferData = Buffer.from(cid, "utf-8");
+    const encryptedData = publicEncrypt(
+      {
+        key: publicKeyContent,
+        padding: constants.RSA_PKCS1_OAEP_PADDING,
+      },
+      bufferData,
+    );
+    const base64Encoded = encryptedData.toString("base64");
+
+    return base64Encoded.replace(/(.{64})/g, "$1\n");
   }
 }

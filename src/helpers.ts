@@ -10,26 +10,21 @@ export function removeDiacritics(str: string): string {
     .replace(/[^0-9a-zA-Z.@_ -]/g, "");
 }
 
-export function limitLength(str: string, limit: number): string {
-  str = str.length > limit ? str.substring(0, limit) : str;
-  return str;
-}
-
 export function trimAndRemoveSpecialCharacters(str: string): string {
   str = str.replace(/[<>|`\\]/g, " ").trim();
   return str;
 }
 
-export function removeCharacterFromStrings<T>(obj: T): T {
+export function removeSpecialCharactersFromStrings<T>(obj: T): T {
   if (typeof obj === "string") {
     return trimAndRemoveSpecialCharacters(obj) as T;
   } else if (Array.isArray(obj)) {
-    return obj.map((item) => removeCharacterFromStrings(item)) as T;
+    return obj.map((item) => removeSpecialCharactersFromStrings(item)) as T;
   } else if (typeof obj === "object" && obj !== null) {
     return Object.fromEntries(
       Object.entries(obj).map(([key, value]) => [
         key,
-        removeCharacterFromStrings(value),
+        removeSpecialCharactersFromStrings(value),
       ]),
     ) as T;
   }
@@ -123,7 +118,6 @@ export const paymentMethodStatuses: Record<PaymentMethod, PaymentStatuses> = {
     accepted: ["LOAN_APPLICATION_FINISHED", "LOAN_DISBURSED"],
     rejected: ["CANCEL", "EXPIRED"],
   },
-  // If CARD_PAY and DIRECT_API don't have statuses, you can leave them empty or add as needed.
   [PaymentMethod.CARD_PAY]: {
     accepted: ["OK", "CB"],
     rejected: ["FAIL"],
