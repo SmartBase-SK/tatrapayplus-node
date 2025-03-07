@@ -13,6 +13,8 @@ import { PaymentMethodsParams } from "./types";
 import fs from "node:fs";
 import path from "node:path";
 
+export * from "./enums";
+
 export class TBPlusSDK {
   private clientId: string;
   private clientSecret: string;
