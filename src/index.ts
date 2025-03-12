@@ -267,6 +267,7 @@ export class TBPlusSDK {
         path: { "payment-id": paymentId },
       },
       body: body,
+      parseAs: "stream",
     });
   }
 
