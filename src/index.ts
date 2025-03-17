@@ -287,6 +287,7 @@ export class TBPlusSDK {
     return this.apiClient.POST("/v1/appearances", {
       params: { header: { ...this.getDefaultHeaders() } },
       body: body,
+      parseAs: "stream",
     });
   }
 
@@ -296,6 +297,7 @@ export class TBPlusSDK {
     return this.apiClient.POST("/v1/appearances/logo", {
       params: { header: { ...this.getDefaultHeaders() } },
       body: body,
+      parseAs: "stream",
     });
   }
 
