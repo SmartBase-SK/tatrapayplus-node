@@ -1,4 +1,5 @@
 import { GatewayMode, Scopes } from "./enums";
+import { TBPlusLogger } from "./logger";
 import createClient, { ClientOptions, Middleware } from "openapi-fetch";
 import { operations, paths } from "./paths";
 import { constants, publicEncrypt, randomUUID } from "node:crypto";
@@ -28,6 +29,7 @@ export class TBPlusSDK {
   public apiClient;
   public accessToken: string | undefined = undefined;
   UNPROTECTED_ROUTES = ["/auth/oauth/v2/token"];
+  private logger: TBPlusLogger | undefined = undefined;
 
   constructor(
     clientId: string,
@@ -38,6 +40,7 @@ export class TBPlusSDK {
       scopes?: Scopes[];
       createClientParams?: ClientOptions;
     } = {},
+    logger: TBPlusLogger | undefined = undefined,
   ) {
     this.mode = sdkOptions.mode ?? GatewayMode.SANDBOX;
     if (this.mode == GatewayMode.PRODUCTION) {
@@ -55,6 +58,7 @@ export class TBPlusSDK {
       baseUrl: this.baseUrl,
       ...sdkOptions.createClientParams,
     });
+    this.logger = logger;
     this.apiClient.use(this.getAuthMiddleware());
     this.apiClient.use(this.getRetryMiddleware());
   }
@@ -86,6 +90,9 @@ export class TBPlusSDK {
         return request.clone();
       },
       onResponse: async ({ response }) => {
+        if (this.originalRequest && this.logger) {
+          await this.logger.log(this.originalRequest, response);
+        }
         if (
           !this.retryStatues.includes(response.status) ||
           !this.originalRequest
@@ -307,7 +314,11 @@ export class TBPlusSDK {
   ) {
     return this.apiClient.POST("/v1/payments-direct", {
       params: {
-        header: { ...this.getDefaultHeaders(), "Redirect-URI": redirectUri, "IP-Address": clientIp},
+        header: {
+          ...this.getDefaultHeaders(),
+          "Redirect-URI": redirectUri,
+          "IP-Address": clientIp,
+        },
       },
       body: body,
     });

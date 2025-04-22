@@ -440,7 +440,6 @@ describe("TBPlusSDK Mocked suit", () => {
       "127.0.0.1",
       "en",
       "BANK_TRANSFER",
-
     );
     expect(error).toBeFalsy();
     expect(response.headers.get("Accept-Language")).toBe("en");
@@ -596,7 +595,7 @@ describe("TBPlusSDK Mocked suit", () => {
         },
       },
       REDIRECT_URI,
-      "127.0.0.1"
+      "127.0.0.1",
     );
     expect(error).toBeFalsy();
     expect(response.status).toBe(200);
