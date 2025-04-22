@@ -13,8 +13,8 @@ export class TBPlusLogger {
     this.maskSensitiveData = maskSensitiveData;
   }
 
-  private maskValue(value, keep = 5): string {
-    if (typeof value !== "string" || value.length <= keep * 2) {
+  private maskValue(value: string, keep = 5): string {
+    if (value.length <= keep * 2) {
       return "*".repeat(value.length);
     }
     return (
@@ -23,15 +23,18 @@ export class TBPlusLogger {
       value.slice(-keep)
     );
   }
+  private isRecord(obj: unknown): obj is Record<string, unknown> {
+    return typeof obj === "object" && obj !== null && !Array.isArray(obj);
+  }
 
   private maskBody(body: unknown): unknown {
-    if (!this.maskSensitiveData || !body) return body;
+    if (!this.maskSensitiveData || !this.isRecord(body)) return body;
 
-    const masked = { ...body };
+    const masked: Record<string, unknown> = { ...body };
 
-    for (const key: string of this.maskBodyFields) {
-      if (masked[key]) {
-        masked[key] = this.maskValue(String(masked[key]));
+    for (const key of this.maskBodyFields) {
+      if (key in masked && typeof masked[key] === "string") {
+        masked[key] = this.maskValue(masked[key]);
       }
     }
 
