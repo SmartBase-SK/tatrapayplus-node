@@ -13,7 +13,7 @@ export class TBPlusLogger {
     this.maskSensitiveData = maskSensitiveData;
   }
 
-  private maskValue(value: string, keep = 5): string {
+  private maskValue(value, keep = 5): string {
     if (typeof value !== "string" || value.length <= keep * 2) {
       return "*".repeat(value.length);
     }
@@ -29,7 +29,7 @@ export class TBPlusLogger {
 
     const masked = { ...body };
 
-    for (const key of this.maskBodyFields) {
+    for (const key: string of this.maskBodyFields) {
       if (masked[key]) {
         masked[key] = this.maskValue(String(masked[key]));
       }

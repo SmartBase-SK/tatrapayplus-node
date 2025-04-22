@@ -121,10 +121,7 @@ export class TBPlusSDK {
   }
 
   private getDefaultHeaders() {
-    const defaultHeaders: Record<
-      "X-Request-ID" | "IP-Address" | "User-Agent",
-      string
-    > = {
+    const defaultHeaders: Record<"X-Request-ID" | "User-Agent", string> = {
       "X-Request-ID": randomUUID(),
       "User-Agent": `Tatrapayplus-plugin/${this.clientVersion}/Node.js`,
     };

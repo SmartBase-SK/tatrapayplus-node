@@ -115,28 +115,28 @@ export function getSavedCardData(
 
 export const paymentMethodStatuses: Record<PaymentMethod, PaymentStatuses> = {
   [PaymentMethod.QR_PAY]: {
-    authorized: ["ACSC", "ACCC"],
+    capture: ["ACSC", "ACCC"],
     rejected: ["CANC", "RJCT"],
-    capture: [],
+    authorized: [],
   },
   [PaymentMethod.BANK_TRANSFER]: {
-    authorized: ["ACSC", "ACCC"],
+    capture: ["ACSC", "ACCC"],
     rejected: ["CANC", "RJCT"],
-    capture: [],
+    authorized: [],
   },
   [PaymentMethod.PAY_LATER]: {
-    authorized: ["LOAN_APPLICATION_FINISHED", "LOAN_DISBURSED"],
+    capture: ["LOAN_APPLICATION_FINISHED", "LOAN_DISBURSED"],
     rejected: ["CANCEL", "EXPIRED"],
-    capture: [],
+    authorized: [],
   },
   [PaymentMethod.CARD_PAY]: {
-    authorized: ["OK", "CB"],
+    capture: ["OK", "CB"],
     rejected: ["FAIL"],
-    capture: ["PA"],
+    authorized: ["PA"],
   },
   [PaymentMethod.DIRECT_API]: {
-    authorized: ["OK", "CB"],
+    capture: ["OK", "CB"],
     rejected: ["FAIL"],
-    capture: [],
+    authorized: [],
   },
 };
