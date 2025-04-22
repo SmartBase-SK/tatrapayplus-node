@@ -18,7 +18,6 @@ export * from "./enums";
 export class TBPlusSDK {
   private clientId: string;
   private clientSecret: string;
-  private clientIp: string;
   private mode: GatewayMode;
   private originalRequest: Request | undefined;
   private scopes: Scopes[];
@@ -51,7 +50,6 @@ export class TBPlusSDK {
 
     this.clientId = clientId;
     this.clientSecret = clientSecret;
-    this.clientIp = clientIp;
     this.scopes = sdkOptions.scopes ?? [Scopes.TATRAPAYPLUS];
     this.apiClient = createClient<paths>({
       baseUrl: this.baseUrl,
@@ -121,7 +119,6 @@ export class TBPlusSDK {
       string
     > = {
       "X-Request-ID": randomUUID(),
-      "IP-Address": this.clientIp,
       "User-Agent": `Tatrapayplus-plugin/${this.clientVersion}/Node.js`,
     };
     return defaultHeaders;
@@ -167,6 +164,7 @@ export class TBPlusSDK {
   public async createPayment(
     body: paths["/v1/payments"]["post"]["requestBody"]["content"]["application/json"],
     redirectUri: string,
+    clientIp: string,
     language: operations["initiatePayment"]["parameters"]["header"]["Accept-Language"] = undefined,
     preferredMethod: operations["initiatePayment"]["parameters"]["header"]["Preferred-Method"] = undefined,
     fetchOptions = {},
@@ -175,6 +173,7 @@ export class TBPlusSDK {
     const headers: operations["initiatePayment"]["parameters"]["header"] = {
       ...this.getDefaultHeaders(),
       "Redirect-URI": redirectUri,
+      "IP-Address": clientIp,
     };
     if (language) {
       headers["Accept-Language"] = language;
@@ -304,10 +303,11 @@ export class TBPlusSDK {
   public async createPaymentDirect(
     body: paths["/v1/payments-direct"]["post"]["requestBody"]["content"]["application/json"],
     redirectUri: string,
+    clientIp: string,
   ) {
     return this.apiClient.POST("/v1/payments-direct", {
       params: {
-        header: { ...this.getDefaultHeaders(), "Redirect-URI": redirectUri },
+        header: { ...this.getDefaultHeaders(), "Redirect-URI": redirectUri, "IP-Address": clientIp},
       },
       body: body,
     });

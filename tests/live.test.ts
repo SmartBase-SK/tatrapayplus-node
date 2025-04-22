@@ -42,6 +42,7 @@ describe("TBPlusSDK tests on live", () => {
         },
       },
       REDIRECT_URI,
+      "127.0.0.1",
     );
     expect(error).toBeUndefined();
     if (!data) {
@@ -106,6 +107,7 @@ describe("TBPlusSDK tests on live", () => {
         },
       },
       REDIRECT_URI,
+      "127.0.0.1"
     );
     expect(error).toBeUndefined();
     if (data) {
@@ -174,7 +176,7 @@ describe("TBPlusSDK tests on live", () => {
         },
       },
     };
-    const { data, error } = await sdk.createPayment(body, REDIRECT_URI);
+    const { data, error } = await sdk.createPayment(body, REDIRECT_URI, "127.0.0.1");
     const requestBody = await requestHistory[1]?.json();
 
     expect(error).toBeUndefined();
