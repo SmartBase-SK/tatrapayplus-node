@@ -3,11 +3,16 @@ import { TBPlusSDK } from "../src";
 import dotenv from "dotenv";
 import { PaymentMethod, SimpleStatus } from "../src/enums";
 import { getAvailable } from "../src/helpers";
+import { TBPlusLogger } from "../src/logger";
 
 dotenv.config();
 
 const REDIRECT_URI = "https://tatrabanka.sk/";
-
+export class TestLogger extends TBPlusLogger {
+  protected writeLine(line: string): void {
+    console.log("[TestLogger]", line);
+  }
+}
 describe("TBPlusSDK tests on live", () => {
   it("retrieve all payment methods", async () => {
     const sdk = new TBPlusSDK(
@@ -29,6 +34,8 @@ describe("TBPlusSDK tests on live", () => {
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
       "192.0.2.123",
+      {},
+      new TestLogger(),
     );
     const { data, error } = await sdk.createPayment(
       {
@@ -42,6 +49,7 @@ describe("TBPlusSDK tests on live", () => {
         },
       },
       REDIRECT_URI,
+      "127.0.0.1",
     );
     expect(error).toBeUndefined();
     if (!data) {
@@ -106,6 +114,7 @@ describe("TBPlusSDK tests on live", () => {
         },
       },
       REDIRECT_URI,
+      "127.0.0.1",
     );
     expect(error).toBeUndefined();
     if (data) {
@@ -133,7 +142,6 @@ describe("TBPlusSDK tests on live", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
-      "192.0.2.123",
       {
         createClientParams: {
           fetch: mockFetch,
@@ -174,7 +182,11 @@ describe("TBPlusSDK tests on live", () => {
         },
       },
     };
-    const { data, error } = await sdk.createPayment(body, REDIRECT_URI);
+    const { data, error } = await sdk.createPayment(
+      body,
+      REDIRECT_URI,
+      "127.0.0.1",
+    );
     const requestBody = await requestHistory[1]?.json();
 
     expect(error).toBeUndefined();

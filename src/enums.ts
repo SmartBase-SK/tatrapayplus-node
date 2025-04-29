@@ -16,7 +16,8 @@ export enum PaymentMethod {
 }
 
 export enum SimpleStatus {
-  ACCEPTED = "ACCEPTED",
+  AUTHORIZED = "AUTHORIZED",
   PENDING = "PENDING",
+  CAPTURE = "CAPTURE",
   REJECTED = "REJECTED",
 }

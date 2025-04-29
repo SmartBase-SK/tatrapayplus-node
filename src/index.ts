@@ -1,4 +1,5 @@
 import { GatewayMode, Scopes } from "./enums";
+import { TBPlusLogger } from "./logger";
 import createClient, { ClientOptions, Middleware } from "openapi-fetch";
 import { operations, paths } from "./paths";
 import { constants, publicEncrypt, randomUUID } from "node:crypto";
@@ -18,7 +19,6 @@ export * from "./enums";
 export class TBPlusSDK {
   private clientId: string;
   private clientSecret: string;
-  private clientIp: string;
   private mode: GatewayMode;
   private originalRequest: Request | undefined;
   private scopes: Scopes[];
@@ -29,16 +29,17 @@ export class TBPlusSDK {
   public apiClient;
   public accessToken: string | undefined = undefined;
   UNPROTECTED_ROUTES = ["/auth/oauth/v2/token"];
+  private logger: TBPlusLogger | undefined = undefined;
 
   constructor(
     clientId: string,
     clientSecret: string,
-    clientIp: string,
     sdkOptions: {
       mode?: GatewayMode;
       scopes?: Scopes[];
       createClientParams?: ClientOptions;
     } = {},
+    logger: TBPlusLogger | undefined = undefined,
   ) {
     this.mode = sdkOptions.mode ?? GatewayMode.SANDBOX;
     if (this.mode == GatewayMode.PRODUCTION) {
@@ -51,12 +52,12 @@ export class TBPlusSDK {
 
     this.clientId = clientId;
     this.clientSecret = clientSecret;
-    this.clientIp = clientIp;
     this.scopes = sdkOptions.scopes ?? [Scopes.TATRAPAYPLUS];
     this.apiClient = createClient<paths>({
       baseUrl: this.baseUrl,
       ...sdkOptions.createClientParams,
     });
+    this.logger = logger;
     this.apiClient.use(this.getAuthMiddleware());
     this.apiClient.use(this.getRetryMiddleware());
   }
@@ -88,6 +89,9 @@ export class TBPlusSDK {
         return request.clone();
       },
       onResponse: async ({ response }) => {
+        if (this.originalRequest && this.logger && typeof this.logger.log === 'function') {
+          await this.logger.log(this.originalRequest, response);
+        }
         if (
           !this.retryStatues.includes(response.status) ||
           !this.originalRequest
@@ -116,12 +120,8 @@ export class TBPlusSDK {
   }
 
   private getDefaultHeaders() {
-    const defaultHeaders: Record<
-      "X-Request-ID" | "IP-Address" | "User-Agent",
-      string
-    > = {
+    const defaultHeaders: Record<"X-Request-ID" | "User-Agent", string> = {
       "X-Request-ID": randomUUID(),
-      "IP-Address": this.clientIp,
       "User-Agent": `Tatrapayplus-plugin/${this.clientVersion}/Node.js`,
     };
     return defaultHeaders;
@@ -167,6 +167,7 @@ export class TBPlusSDK {
   public async createPayment(
     body: paths["/v1/payments"]["post"]["requestBody"]["content"]["application/json"],
     redirectUri: string,
+    clientIp: string,
     language: operations["initiatePayment"]["parameters"]["header"]["Accept-Language"] = undefined,
     preferredMethod: operations["initiatePayment"]["parameters"]["header"]["Preferred-Method"] = undefined,
     fetchOptions = {},
@@ -175,6 +176,7 @@ export class TBPlusSDK {
     const headers: operations["initiatePayment"]["parameters"]["header"] = {
       ...this.getDefaultHeaders(),
       "Redirect-URI": redirectUri,
+      "IP-Address": clientIp,
     };
     if (language) {
       headers["Accept-Language"] = language;
@@ -304,10 +306,15 @@ export class TBPlusSDK {
   public async createPaymentDirect(
     body: paths["/v1/payments-direct"]["post"]["requestBody"]["content"]["application/json"],
     redirectUri: string,
+    clientIp: string,
   ) {
     return this.apiClient.POST("/v1/payments-direct", {
       params: {
-        header: { ...this.getDefaultHeaders(), "Redirect-URI": redirectUri },
+        header: {
+          ...this.getDefaultHeaders(),
+          "Redirect-URI": redirectUri,
+          "IP-Address": clientIp,
+        },
       },
       body: body,
     });

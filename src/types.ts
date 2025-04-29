@@ -12,6 +12,7 @@ export type PaymentMethodsParams = {
 };
 
 export type PaymentStatuses = {
-  accepted: string[];
+  authorized: string[];
   rejected: string[];
+  capture: string[];
 };

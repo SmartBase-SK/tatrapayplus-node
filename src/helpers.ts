@@ -61,9 +61,17 @@ export function getSimpleStatus(
   if (
     paymentMethodStatuses[
       paymentStatus.selectedPaymentMethod
-    ]?.accepted.includes(plainStatus)
+    ]?.authorized.includes(plainStatus)
   ) {
-    return SimpleStatus.ACCEPTED;
+    return SimpleStatus.AUTHORIZED;
+  }
+
+  if (
+    paymentMethodStatuses[
+      paymentStatus.selectedPaymentMethod
+    ]?.capture.includes(plainStatus)
+  ) {
+    return SimpleStatus.CAPTURE;
   }
 
   if (
@@ -107,23 +115,28 @@ export function getSavedCardData(
 
 export const paymentMethodStatuses: Record<PaymentMethod, PaymentStatuses> = {
   [PaymentMethod.QR_PAY]: {
-    accepted: ["ACSC", "ACCC"],
+    capture: ["ACSC", "ACCC"],
     rejected: ["CANC", "RJCT"],
+    authorized: [],
   },
   [PaymentMethod.BANK_TRANSFER]: {
-    accepted: ["ACSC", "ACCC"],
+    capture: ["ACSC", "ACCC"],
     rejected: ["CANC", "RJCT"],
+    authorized: [],
   },
   [PaymentMethod.PAY_LATER]: {
-    accepted: ["LOAN_APPLICATION_FINISHED", "LOAN_DISBURSED"],
+    capture: ["LOAN_APPLICATION_FINISHED", "LOAN_DISBURSED"],
     rejected: ["CANCEL", "EXPIRED"],
+    authorized: [],
   },
   [PaymentMethod.CARD_PAY]: {
-    accepted: ["OK", "CB"],
+    capture: ["OK", "CB"],
     rejected: ["FAIL"],
+    authorized: ["PA"],
   },
   [PaymentMethod.DIRECT_API]: {
-    accepted: ["OK", "CB"],
+    capture: ["OK", "CB"],
     rejected: ["FAIL"],
+    authorized: [],
   },
 };
