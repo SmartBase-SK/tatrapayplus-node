@@ -101,7 +101,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     server.use(
       http.get(`${sdk.baseUrl}/v1/payments/methods`, () =>
@@ -117,7 +116,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
 
     const statusList: { status: number; key: string | null }[] = [];
@@ -157,7 +155,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     server.use(
       http.get(`${sdk.baseUrl}/v1/payments/methods`, () => {
@@ -247,7 +244,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     server.use(
       http.get(
@@ -345,7 +341,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     const result = sdk.generateSignedCardIdFromCid("12345");
     expect(result).toBeTruthy();
@@ -355,7 +350,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdkSandbox = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     const accessTokenSandbox = await sdkSandbox.fetchAccessToken();
     expect(accessTokenSandbox).toBe("e8fc6511-4e80-4972-9f91-604fcd06a6d7");
@@ -363,14 +357,13 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdkProduction = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
       { mode: GatewayMode.PRODUCTION },
     );
     const accessTokenProduction = await sdkProduction.fetchAccessToken();
     expect(accessTokenProduction).toBe("d8fc6511-4e80-4972-9f91-604fcd06a6d7");
 
     expect(() => {
-      new TBPlusSDK(API_KEY as string, API_SECRET as string, "192.0.2.123", {
+      new TBPlusSDK(API_KEY as string, API_SECRET as string,{
         mode: "live" as never,
       });
     }).toThrowError("Unknown gateway mode");
@@ -380,7 +373,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     server.use(
       http.post(`${sdk.baseUrl}/v1/payments`, ({ request }) => {
@@ -451,7 +443,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     server.use(
       http.post(`${sdk.baseUrl}/v1/appearances`, () => {
@@ -486,7 +477,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     server.use(
       http.post(`${sdk.baseUrl}/v1/appearances/logo`, () => {
@@ -510,7 +500,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     server.use(
       http.post(`${sdk.baseUrl}/auth/oauth/v2/token`, () => {
@@ -529,7 +518,6 @@ describe("TBPlusSDK Mocked suit", () => {
     const sdk = new TBPlusSDK(
       API_KEY as string,
       API_SECRET as string,
-      "192.0.2.123",
     );
     const REDIRECT_URI = "http://google.com";
     server.use(

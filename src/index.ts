@@ -34,7 +34,6 @@ export class TBPlusSDK {
   constructor(
     clientId: string,
     clientSecret: string,
-    clientIp: string,
     sdkOptions: {
       mode?: GatewayMode;
       scopes?: Scopes[];
@@ -90,7 +89,7 @@ export class TBPlusSDK {
         return request.clone();
       },
       onResponse: async ({ response }) => {
-        if (this.originalRequest && this.logger) {
+        if (this.originalRequest && this.logger && typeof this.logger.log === 'function') {
           await this.logger.log(this.originalRequest, response);
         }
         if (

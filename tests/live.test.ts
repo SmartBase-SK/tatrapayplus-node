@@ -142,7 +142,6 @@ describe("TBPlusSDK tests on live", () => {
     const sdk = new TBPlusSDK(
       process.env.API_KEY as string,
       process.env.API_SECRET as string,
-      "192.0.2.123",
       {
         createClientParams: {
           fetch: mockFetch,
