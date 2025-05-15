@@ -115,7 +115,7 @@ export function getSavedCardData(
 
 export const paymentMethodStatuses: Record<PaymentMethod, PaymentStatuses> = {
   [PaymentMethod.QR_PAY]: {
-    capture: ["ACSC", "ACCC"],
+    capture: ["ACCC"],
     rejected: ["CANC", "RJCT"],
     authorized: [],
   },
