@@ -88,6 +88,26 @@ export interface paths {
     patch: operations["updatePaymentIntent"];
     trace?: never;
   };
+  "/v1/payments/loans/precalculation": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Loan precalculation
+     * @description Loan precalculation
+     */
+    put: operations["loanPrecalculation"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/v1/payments-direct": {
     parameters: {
       query?: never;
@@ -151,30 +171,68 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/auth/oauth/v2/token": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Obtain OAuth2 Access Token
-     * @description Retrieves an access token using client credentials.
-     */
-    post: operations["getAccessToken"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    basicCalculationResponseItem: {
+      loanInterestRate: components["schemas"]["loanInterestRate"];
+      installmentAmount: components["schemas"]["installmentAmount"];
+      loanDuration: components["schemas"]["loanDuration"];
+      preference: components["schemas"]["preference"];
+      mainPreference: components["schemas"]["mainPreference"];
+      capacityValidity: components["schemas"]["capacityValidity"];
+      rpmn: components["schemas"]["rpmn"];
+      totalAmount: components["schemas"]["totalAmount"];
+      loanFee: components["schemas"]["loanFee"];
+    };
+    /**
+     * Format: double
+     * @description Loan interest rate
+     */
+    loanInterestRate: number;
+    /**
+     * Format: double
+     * @description Installment amount
+     */
+    installmentAmount: number;
+    /** @description Loan duration */
+    loanDuration: number;
+    /** @description Preferred maturity of loan offer (max 3) */
+    preference: boolean;
+    /** @description Main preferred maturity of loan offer (max 1) */
+    mainPreference: boolean;
+    /** @description Loan offer is valid with respect to entered capacity */
+    capacityValidity: boolean;
+    /**
+     * Format: double
+     * @description Calculated RPMN
+     */
+    rpmn: number;
+    /**
+     * Format: double
+     * @description Total amount of the order including all fees, insurance, shipping,...
+     * @example 156.95
+     */
+    totalAmount: number;
+    /**
+     * Format: double
+     * @description Loan amount in EUR
+     * @example 156.95
+     */
+    loanAmount: number;
+    /** Format: double */
+    loanFee: number;
+    basicCalculationResponse: components["schemas"]["basicCalculationResponseItem"][];
+    basicCalculationRequest: {
+      /**
+       * @description Only if isPrecalculationAllowed = true
+       * @enum {string}
+       */
+      paymentMethod?: "PAY_LATER";
+      loanAmount: components["schemas"]["loanAmount"];
+      capacityInfo?: components["schemas"]["capacityInfo"];
+    };
     /** @description
      *     **TatraPayPlus payment update response. **
      *
@@ -270,7 +328,7 @@ export interface components {
       /** @description If true - pre-authorization transaction */
       isPreAuthorization?: boolean;
       tdsData: components["schemas"]["directTransactionTDSData"];
-      ipspData?: components["schemas"]["directTransactionIPSPData"];
+      ipspData?: components["schemas"]["transactionIPSPData"];
       token: components["schemas"]["token"];
     };
     /** @description Body for payment initiation */
@@ -322,7 +380,11 @@ export interface components {
         | "CB_NOT_FOUND"
         | "CB_TOO_OLD"
         | "CB_ERROR"
-        | "NO_AVAIL_PAY_METH";
+        | "NO_AVAIL_PAY_METH"
+        | "LOAN_AMNT_LOW"
+        | "LOAN_AMNT_HIGH"
+        | "NEGATIVE_VALUE_NOT_ALLOWED"
+        | "INSUFFICIENT_CAPACITY";
       errorDescription?: string;
       /** @description Reason codes of declined methods */
       availablePaymentMethods?: components["schemas"]["availablePaymentMethod"][];
@@ -588,6 +650,8 @@ export interface components {
       supportedCurrency?: components["schemas"]["supportedCurrency"];
       supportedCountry?: components["schemas"]["supportedCountry"];
       allowedBankProviders?: components["schemas"]["allowedBankProviders"];
+      /** @default false */
+      isPrecalculationAllowed: boolean;
     };
     /** @description Range of amounts allowed for a given payment method */
     amountRangeRule: {
@@ -659,7 +723,8 @@ export interface components {
     };
     /** @description Value of paymentData.paymentMethodData.tokenizationData.token */
     googlePayToken: string;
-    directTransactionIPSPData: {
+    /** @description In case of payment facilitator mode - this structure is mandatory */
+    transactionIPSPData: {
       subMerchantId: string;
       name: string;
       location: string;
@@ -689,6 +754,7 @@ export interface components {
       billingAddress?: components["schemas"]["address"];
       shippingAddress?: components["schemas"]["address"];
       comfortPay?: components["schemas"]["cardIdentifierOrRegister"];
+      ipspData?: components["schemas"]["transactionIPSPData"];
     };
     /** @description The card holder name. In case of Direct API either cardHolder or email is mandatory */
     cardHolder: string;
@@ -808,43 +874,35 @@ export interface components {
       iban?: components["schemas"]["iban"];
     };
     /**
-     * @description Unstructured remittance information. At present, Tatrabanka bank transfer does not display the remittance information. SEPA remittanceInformationUnstructured contains 140 characters. For TatraPayPlus purposes, the first up to 40 characters are assigned to the paymentId. Others 100 characters are free to use
+     * @description Unstructured transfer information. Currently, Tatrabanka bank transfer does not display the transfer information. The entire SEPA remittanceInformationUnstructured contains 140 characters. The structure of the string consists of 3 parts:
+     *
+     *         - A. paymentId - fixed 40 characters are reserved for paymentId
+     *         - B. Merchant Name value length - provided in the contract, up to 50 characters
+     *         - C. Custom value length - free characters are calculated as C = 140-A-(B+1). Depends on the length of the merchant name.
+     *
+     *         E.g. Merchant name = MerchantABCD,s.r.o. (19 characters + 1 separator space). 80 characters are available.
+     *
+     *         The result of the UnstructuredTransferInformation will look like this
+     *
+     *         07b940d2-8b82-4c7a-a0dd-5ebeabcf1f3d MerchantABCD,s.r.o. Your text in remittance
+     *
+     *         If the value of RemittanceInformationUnstructured in this attribute is longer than the calculated C, your custom value will be truncated.
+     *
+     *
      *
      * @example Ref Number Merchant
      */
     remittanceInformationUnstructured: string;
   };
   responses: {
-    /** @description Successful response with access token */
-    OK_200_AuthTokenSuccess: {
+    /** @description Basic calculation provided */
+    OK_200_BasicCalculation: {
       headers: {
+        "X-Request-ID": components["headers"]["X-Request-ID"];
         [name: string]: unknown;
       };
       content: {
-        "application/json": {
-          /** @example 20bc565f-c28c-4340-9e25-d5bef7ce1db7 */
-          access_token?: string;
-          /** @example Bearer */
-          token_type?: string;
-          /** @example 86400 */
-          expires_in?: number;
-          /** @example TATRAPAYPLUS */
-          scope?: string;
-        };
-      };
-    };
-    /** @description Invalid client credentials */
-    UNAUTHORIZED_401_AuthTokenError: {
-      headers: {
-        [name: string]: unknown;
-      };
-      content: {
-        "application/json": {
-          /** @example invalid_client */
-          error?: string;
-          /** @example The given client credentials were not valid */
-          error_description?: string;
-        };
+        "application/json": components["schemas"]["basicCalculationResponse"];
       };
     };
     /** @description TatraPayPlus Apearance set */
@@ -1076,7 +1134,7 @@ export interface components {
     /**
      * @description Timestamp. Only +/-1h from UTC(GMT)
      *
-     * @example 1092014125505
+     * @example 01092014125505
      */
     Timestamp: string;
     /** @description The user id, if available.
@@ -1092,18 +1150,11 @@ export interface components {
     "Payment-id": string;
   };
   requestBodies: {
-    authTokenRequest: {
+    /** @description Request body for a loan precalculation.
+     *      */
+    basicCalculationRequestBody: {
       content: {
-        "application/x-www-form-urlencoded": {
-          /** @example client_credentials */
-          grant_type: string;
-          /** @example dd */
-          client_id: string;
-          /** @example dd */
-          client_secret: string;
-          /** @example TATRAPAYPLUS */
-          scope: string;
-        };
+        "application/json": components["schemas"]["basicCalculationRequest"];
       };
     };
     /** @description DirectAPI transaction */
@@ -1355,6 +1406,42 @@ export interface operations {
       503: components["responses"]["SERVICE_UNAVAILABLE_503"];
     };
   };
+  loanPrecalculation: {
+    parameters: {
+      query?: never;
+      header: {
+        /**
+         * @description ID of the request, unique to the call, as determined by the initiating party.
+         * @example 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
+         */
+        "X-Request-ID": components["parameters"]["X-Request-ID"];
+        /**
+         * @description The forwarded IP address of the user
+         *
+         * @example 192.168.8.78
+         */
+        "IP-Address": components["parameters"]["IP-Address"];
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: components["requestBodies"]["basicCalculationRequestBody"];
+    responses: {
+      200: components["responses"]["OK_200_BasicCalculation"];
+      400: components["responses"]["BAD_REQUEST_400"];
+      401: components["responses"]["UNAUTHORIZED_401"];
+      403: components["responses"]["FORBIDDEN_403"];
+      404: components["responses"]["NOT_FOUND_404"];
+      405: components["responses"]["METHOD_NOT_ALLOWED_405"];
+      406: components["responses"]["NOT_ACCEPTABLE_406"];
+      408: components["responses"]["REQUEST_TIMEOUT_408"];
+      409: components["responses"]["CONFLICT_409"];
+      415: components["responses"]["UNSUPPORTED_MEDIA_TYPE_415"];
+      429: components["responses"]["TOO_MANY_REQUESTS_429"];
+      500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
+      503: components["responses"]["SERVICE_UNAVAILABLE_503"];
+    };
+  };
   createDirectTransactionRequest: {
     parameters: {
       query?: never;
@@ -1452,19 +1539,6 @@ export interface operations {
       429: components["responses"]["TOO_MANY_REQUESTS_429"];
       500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
       503: components["responses"]["SERVICE_UNAVAILABLE_503"];
-    };
-  };
-  getAccessToken: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: components["requestBodies"]["authTokenRequest"];
-    responses: {
-      200: components["responses"]["OK_200_AuthTokenSuccess"];
-      400: components["responses"]["UNAUTHORIZED_401_AuthTokenError"];
     };
   };
 }

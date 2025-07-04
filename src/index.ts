@@ -347,4 +347,27 @@ export class TBPlusSDK {
 
     return base64Encoded.replace(/(.{64})/g, "$1\n");
   }
+
+  public async precalculateLoan(
+    body: paths["/v1/payments/loans/precalculation"]["put"]["requestBody"]["content"]["application/json"],
+    clientIp: string,
+  ) {
+    const response = await this.apiClient.PUT("/v1/payments/loans/precalculation", {
+      params: {
+        header: {
+          ...this.getDefaultHeaders(),
+          "IP-Address": clientIp,
+        },
+      },
+      body: body,
+    });
+    if (!response.data) {
+      return response;
+    }
+
+    return {
+      ...response,
+      data: response.data,
+    };
+  }
 }

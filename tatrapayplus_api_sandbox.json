@@ -322,6 +322,73 @@
         }
       }
     },
+    "/v1/payments/loans/precalculation": {
+      "put": {
+        "summary": "Loan precalculation",
+        "description": "Loan precalculation",
+        "operationId": "loanPrecalculation",
+        "tags": [
+          "TatraPayPlus API"
+        ],
+        "security": [
+          {
+            "oAuth2ClientCredentials": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-Request-ID"
+          },
+          {
+            "$ref": "#/components/parameters/IP-Address"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/basicCalculationRequestBody"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OK_200_BasicCalculation"
+          },
+          "400": {
+            "$ref": "#/components/responses/BAD_REQUEST_400"
+          },
+          "401": {
+            "$ref": "#/components/responses/UNAUTHORIZED_401"
+          },
+          "403": {
+            "$ref": "#/components/responses/FORBIDDEN_403"
+          },
+          "404": {
+            "$ref": "#/components/responses/NOT_FOUND_404"
+          },
+          "405": {
+            "$ref": "#/components/responses/METHOD_NOT_ALLOWED_405"
+          },
+          "406": {
+            "$ref": "#/components/responses/NOT_ACCEPTABLE_406"
+          },
+          "408": {
+            "$ref": "#/components/responses/REQUEST_TIMEOUT_408"
+          },
+          "409": {
+            "$ref": "#/components/responses/CONFLICT_409"
+          },
+          "415": {
+            "$ref": "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+          },
+          "429": {
+            "$ref": "#/components/responses/TOO_MANY_REQUESTS_429"
+          },
+          "500": {
+            "$ref": "#/components/responses/INTERNAL_SERVER_ERROR_500"
+          },
+          "503": {
+            "$ref": "#/components/responses/SERVICE_UNAVAILABLE_503"
+          }
+        }
+      }
+    },
     "/v1/payments-direct": {
       "post": {
         "summary": "Create direct transaction request",
@@ -504,27 +571,6 @@
           }
         }
       }
-    },
-    "/auth/oauth/v2/token": {
-      "post": {
-        "summary": "Obtain OAuth2 Access Token",
-        "description": "Retrieves an access token using client credentials.",
-        "operationId": "getAccessToken",
-        "tags": [
-          "Authentication"
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/authTokenRequest"
-        },
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/OK_200_AuthTokenSuccess"
-          },
-          "400": {
-            "$ref": "#/components/responses/UNAUTHORIZED_401_AuthTokenError"
-          }
-        }
-      }
     }
   },
   "components": {
@@ -543,6 +589,130 @@
       }
     },
     "schemas": {
+      "basicCalculationResponseItem": {
+        "type": "object",
+        "required": [
+          "loanInterestRate",
+          "installmentAmount",
+          "loanDuration",
+          "preference",
+          "mainPreference",
+          "capacityValidity",
+          "rpmn",
+          "totalAmount",
+          "loanFee"
+        ],
+        "properties": {
+          "loanInterestRate": {
+            "$ref": "#/components/schemas/loanInterestRate"
+          },
+          "installmentAmount": {
+            "$ref": "#/components/schemas/installmentAmount"
+          },
+          "loanDuration": {
+            "$ref": "#/components/schemas/loanDuration"
+          },
+          "preference": {
+            "$ref": "#/components/schemas/preference"
+          },
+          "mainPreference": {
+            "$ref": "#/components/schemas/mainPreference"
+          },
+          "capacityValidity": {
+            "$ref": "#/components/schemas/capacityValidity"
+          },
+          "rpmn": {
+            "$ref": "#/components/schemas/rpmn"
+          },
+          "totalAmount": {
+            "$ref": "#/components/schemas/totalAmount"
+          },
+          "loanFee": {
+            "$ref": "#/components/schemas/loanFee"
+          }
+        }
+      },
+      "loanInterestRate": {
+        "type": "number",
+        "format": "double",
+        "description": "Loan interest rate"
+      },
+      "installmentAmount": {
+        "type": "number",
+        "format": "double",
+        "description": "Installment amount"
+      },
+      "loanDuration": {
+        "type": "integer",
+        "description": "Loan duration"
+      },
+      "preference": {
+        "type": "boolean",
+        "description": "Preferred maturity of loan offer (max 3)"
+      },
+      "mainPreference": {
+        "type": "boolean",
+        "description": "Main preferred maturity of loan offer (max 1)"
+      },
+      "capacityValidity": {
+        "type": "boolean",
+        "description": "Loan offer is valid with respect to entered capacity"
+      },
+      "rpmn": {
+        "type": "number",
+        "format": "double",
+        "description": "Calculated RPMN"
+      },
+      "totalAmount": {
+        "type": "number",
+        "format": "double",
+        "description": "Total amount of the order including all fees, insurance, shipping,...",
+        "minimum": 100,
+        "maximum": 40000,
+        "multipleOf": 0.01,
+        "example": 156.95
+      },
+      "loanAmount": {
+        "type": "number",
+        "format": "double",
+        "description": "Loan amount in EUR",
+        "minimum": 100,
+        "maximum": 40000,
+        "multipleOf": 0.01,
+        "example": 156.95
+      },
+      "loanFee": {
+        "type": "number",
+        "format": "double"
+      },
+      "basicCalculationResponse": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/components/schemas/basicCalculationResponseItem"
+        }
+      },
+      "basicCalculationRequest": {
+        "type": "object",
+        "required": [
+          "loanAmount"
+        ],
+        "properties": {
+          "paymentMethod": {
+            "description": "Only if isPrecalculationAllowed = true",
+            "type": "string",
+            "enum": [
+              "PAY_LATER"
+            ]
+          },
+          "loanAmount": {
+            "$ref": "#/components/schemas/loanAmount"
+          },
+          "capacityInfo": {
+            "$ref": "#/components/schemas/capacityInfo"
+          }
+        }
+      },
       "paymentIntentUpdateResponse": {
         "description": "\n**TatraPayPlus payment update response. **\n\n| selectedPaymentMethod      | attribute supported |\n| ---------------- | ------------|\n| BANK_TRANSFER              | N/A     |\n| CARD_PAY              | cardPayStatusStructure |\n| PAY_LATER               | N/A |\n",
         "type": "object",
@@ -718,7 +888,7 @@
             "$ref": "#/components/schemas/directTransactionTDSData"
           },
           "ipspData": {
-            "$ref": "#/components/schemas/directTransactionIPSPData"
+            "$ref": "#/components/schemas/transactionIPSPData"
           },
           "token": {
             "$ref": "#/components/schemas/token"
@@ -841,7 +1011,11 @@
               "CB_NOT_FOUND",
               "CB_TOO_OLD",
               "CB_ERROR",
-              "NO_AVAIL_PAY_METH"
+              "NO_AVAIL_PAY_METH",
+              "LOAN_AMNT_LOW",
+              "LOAN_AMNT_HIGH",
+              "NEGATIVE_VALUE_NOT_ALLOWED",
+              "INSUFFICIENT_CAPACITY"
             ]
           },
           "errorDescription": {
@@ -1188,7 +1362,7 @@
         "type": "string",
         "maxLength": 30,
         "minLength": 1,
-        "pattern": "^[a-zA-Z0-9Ã\u0080-Å¾ ]{1,30}$"
+        "pattern": "^[a-zA-Z0-9Ã-Å¾ ]{1,30}$"
       },
       "phone": {
         "description": "Conditionally mandatory.  In case of TatraPayPlus payment initiation - It is mandatory only if the email attribute is not provided.",
@@ -1357,10 +1531,10 @@
       "paymentMethodRules": {
         "type": "object",
         "required": [
-          "paymentMethod"
+          "paymentmethod"
         ],
         "properties": {
-          "paymentMethod": {
+          "paymentmethod": {
             "$ref": "#/components/schemas/paymentMethod"
           },
           "amountRangeRule": {
@@ -1374,6 +1548,10 @@
           },
           "allowedBankProviders": {
             "$ref": "#/components/schemas/allowedBankProviders"
+          },
+          "isPrecalculationAllowed": {
+            "type": "boolean",
+            "default": false
           }
         }
       },
@@ -1551,7 +1729,8 @@
         "type": "string",
         "description": "Value of paymentData.paymentMethodData.tokenizationData.token"
       },
-      "directTransactionIPSPData": {
+      "transactionIPSPData": {
+        "description": "In case of payment facilitator mode - this structure is mandatory",
         "type": "object",
         "required": [
           "subMerchantId",
@@ -1614,6 +1793,9 @@
           },
           "comfortPay": {
             "$ref": "#/components/schemas/cardIdentifierOrRegister"
+          },
+          "ipspData": {
+            "$ref": "#/components/schemas/transactionIPSPData"
           }
         }
       },
@@ -1809,7 +1991,7 @@
         }
       },
       "remittanceInformationUnstructured": {
-        "description": "Unstructured remittance information. At present, Tatrabanka bank transfer does not display the remittance information. SEPA remittanceInformationUnstructured contains 140 characters. For TatraPayPlus purposes, the first up to 40 characters are assigned to the paymentId. Others 100 characters are free to use\n",
+        "description": "Unstructured transfer information. Currently, Tatrabanka bank transfer does not display the transfer information. The entire SEPA remittanceInformationUnstructured contains 140 characters. The structure of the string consists of 3 parts:\n\n    - A. paymentId - fixed 40 characters are reserved for paymentId\n    - B. Merchant Name value length - provided in the contract, up to 50 characters\n    - C. Custom value length - free characters are calculated as C = 140-A-(B+1). Depends on the length of the merchant name.\n    \n    E.g. Merchant name = MerchantABCD,s.r.o. (19 characters + 1 separator space). 80 characters are available.\n    \n    The result of the UnstructuredTransferInformation will look like this\n    \n    07b940d2-8b82-4c7a-a0dd-5ebeabcf1f3d MerchantABCD,s.r.o. Your text in remittance\n    \n    If the value of RemittanceInformationUnstructured in this attribute is longer than the calculated C, your custom value will be truncated. \n  \n  \n",
         "type": "string",
         "pattern": "^[ 0-9a-zA-Z?:()\\/\\.,'+-]{1,100}$",
         "maxLength": 100,
@@ -1918,7 +2100,7 @@
           "format": "DDMMYYYYHHMISS"
         },
         "required": true,
-        "example": 1092014125505
+        "example": "01092014125505"
       },
       "User-Id": {
         "name": "User-Id",
@@ -1972,36 +2154,12 @@
       }
     },
     "requestBodies": {
-      "authTokenRequest": {
-        "required": true,
+      "basicCalculationRequestBody": {
+        "description": "Request body for a loan precalculation.\n",
         "content": {
-          "application/x-www-form-urlencoded": {
+          "application/json": {
             "schema": {
-              "type": "object",
-              "properties": {
-                "grant_type": {
-                  "type": "string",
-                  "example": "client_credentials"
-                },
-                "client_id": {
-                  "type": "string",
-                  "example": "dd"
-                },
-                "client_secret": {
-                  "type": "string",
-                  "example": "dd"
-                },
-                "scope": {
-                  "type": "string",
-                  "example": "TATRAPAYPLUS"
-                }
-              },
-              "required": [
-                "grant_type",
-                "client_id",
-                "client_secret",
-                "scope"
-              ]
+              "$ref": "#/components/schemas/basicCalculationRequest"
             }
           }
         }
@@ -2062,50 +2220,17 @@
       }
     },
     "responses": {
-      "OK_200_AuthTokenSuccess": {
-        "description": "Successful response with access token",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "access_token": {
-                  "type": "string",
-                  "example": "20bc565f-c28c-4340-9e25-d5bef7ce1db7"
-                },
-                "token_type": {
-                  "type": "string",
-                  "example": "Bearer"
-                },
-                "expires_in": {
-                  "type": "integer",
-                  "example": 86400
-                },
-                "scope": {
-                  "type": "string",
-                  "example": "TATRAPAYPLUS"
-                }
-              }
-            }
+      "OK_200_BasicCalculation": {
+        "description": "Basic calculation provided",
+        "headers": {
+          "X-Request-ID": {
+            "$ref": "#/components/headers/X-Request-ID"
           }
-        }
-      },
-      "UNAUTHORIZED_401_AuthTokenError": {
-        "description": "Invalid client credentials",
+        },
         "content": {
           "application/json": {
             "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "invalid_client"
-                },
-                "error_description": {
-                  "type": "string",
-                  "example": "The given client credentials were not valid"
-                }
-              }
+              "$ref": "#/components/schemas/basicCalculationResponse"
             }
           }
         }
@@ -2338,8 +2463,7 @@
   },
   "security": [
     {
-      "oAuth2ClientCredentials": [
-      ]
+      "oAuth2ClientCredentials": []
     }
   ],
   "tags": [
