@@ -1492,7 +1492,7 @@ export interface operations {
       path?: never;
       cookie?: never;
     };
-    requestBody?: components["requestBodies"]["basicCalculationRequestBody"];
+    requestBody: components["requestBodies"]["basicCalculationRequestBody"];
     responses: {
       200: components["responses"]["OK_200_BasicCalculation"];
       400: components["responses"]["BAD_REQUEST_400"];
