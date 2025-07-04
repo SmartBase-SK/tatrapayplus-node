@@ -1531,10 +1531,10 @@
       "paymentMethodRules": {
         "type": "object",
         "required": [
-          "paymentmethod"
+          "paymentMethod"
         ],
         "properties": {
-          "paymentmethod": {
+          "paymentMethod": {
             "$ref": "#/components/schemas/paymentMethod"
           },
           "amountRangeRule": {

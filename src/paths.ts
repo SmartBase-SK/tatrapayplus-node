@@ -171,6 +171,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/auth/oauth/v2/token": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Obtain OAuth2 Access Token
+     * @description Retrieves an access token using client credentials.
+     */
+    post: operations["getAccessToken"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -384,6 +404,7 @@ export interface components {
         | "LOAN_AMNT_LOW"
         | "LOAN_AMNT_HIGH"
         | "NEGATIVE_VALUE_NOT_ALLOWED"
+        | "INVALID_PARAMETER"
         | "INSUFFICIENT_CAPACITY";
       errorDescription?: string;
       /** @description Reason codes of declined methods */
@@ -1089,6 +1110,38 @@ export interface components {
       };
       content?: never;
     };
+    /** @description Successful response with access token */
+    OK_200_AuthTokenSuccess: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": {
+          /** @example 20bc565f-c28c-4340-9e25-d5bef7ce1db7 */
+          access_token?: string;
+          /** @example Bearer */
+          token_type?: string;
+          /** @example 86400 */
+          expires_in?: number;
+          /** @example TATRAPAYPLUS */
+          scope?: string;
+        };
+      };
+    };
+    /** @description Invalid client credentials */
+    UNAUTHORIZED_401_AuthTokenError: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        "application/json": {
+          /** @example invalid_client */
+          error?: string;
+          /** @example The given client credentials were not valid */
+          error_description?: string;
+        };
+      };
+    };
   };
   parameters: {
     /** @description taskId of the asynch job
@@ -1205,6 +1258,20 @@ export interface components {
     logoBody: {
       content: {
         "application/json": components["schemas"]["appearanceLogoRequest"];
+      };
+    };
+    authTokenRequest: {
+      content: {
+        "application/x-www-form-urlencoded": {
+          /** @example client_credentials */
+          grant_type: string;
+          /** @example dd */
+          client_id: string;
+          /** @example dd */
+          client_secret: string;
+          /** @example TATRAPAYPLUS */
+          scope: string;
+        };
       };
     };
   };
@@ -1539,6 +1606,19 @@ export interface operations {
       429: components["responses"]["TOO_MANY_REQUESTS_429"];
       500: components["responses"]["INTERNAL_SERVER_ERROR_500"];
       503: components["responses"]["SERVICE_UNAVAILABLE_503"];
+    };
+  };
+  getAccessToken: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: components["requestBodies"]["authTokenRequest"];
+    responses: {
+      200: components["responses"]["OK_200_AuthTokenSuccess"];
+      400: components["responses"]["UNAUTHORIZED_401_AuthTokenError"];
     };
   };
 }
