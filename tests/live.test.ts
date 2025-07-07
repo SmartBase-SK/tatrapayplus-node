@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { TBPlusSDK } from "../src";
+import { GatewayMode, TBPlusSDK, PaymentMethod, SimpleStatus } from "../src";
 import dotenv from "dotenv";
-import { PaymentMethod, SimpleStatus } from "../src/enums";
 import { getAvailable } from "../src/helpers";
 import { TBPlusLogger } from "../src/logger";
 
@@ -215,5 +214,96 @@ describe("TBPlusSDK tests on live", () => {
       await sdk.cancelPayment(data.paymentId);
     expect(cancelErrors2).toBeTruthy();
     expect(response2.status).toBe(400);
+  });
+
+  it("direct payment create", async () => {
+    const sdk = new TBPlusSDK(
+      process.env.API_KEY as string,
+      process.env.API_SECRET as string,
+    );
+    const REDIRECT_URI = "http://google.com";
+    const { error, response } = await sdk.createPaymentDirect(
+      {
+        amount: {
+          amountValue: 30,
+          currency: "EUR",
+        },
+        endToEnd: {
+          variableSymbol: "123456",
+          specificSymbol: "0244763",
+          constantSymbol: "389",
+        },
+        isPreAuthorization: true,
+        tdsData: {
+          cardHolder: " U5t4K7WgIgzxf9rgxt5@g4E54LhLOf@fJ",
+          email: "user@example.com",
+          phone: "+20912900552",
+          billingAddress: {
+            streetName: "Testerská",
+            buildingNumber: "35",
+            townName: "Bratislava",
+            postCode: "85104",
+            country: "SK",
+          },
+          shippingAddress: {
+            streetName: "Testerská",
+            buildingNumber: "35",
+            townName: "Bratislava",
+            postCode: "85104",
+            country: "SK",
+          },
+        },
+        ipspData: {
+          subMerchantId: "5846864684",
+          name: "ASDQWE",
+          location: "96A6Mrz",
+          country: "SE",
+        },
+        token: "ABC12345",
+      },
+      REDIRECT_URI,
+      "127.0.0.1",
+    );
+    expect(error).toBeFalsy();
+    expect(response.status).toBe(201);
+  });
+
+  it("precalculate loan", async () => {
+    const sdk = new TBPlusSDK(
+      process.env.API_KEY as string,
+      process.env.API_SECRET as string,
+      {mode: GatewayMode.PRODUCTION},
+      new TestLogger(),
+    );
+    const { data, error } = await sdk.precalculateLoan(
+      {
+        paymentMethod: PaymentMethod.PAY_LATER,
+        loanAmount: 250.45,
+        capacityInfo: {
+          monthlyIncome: 2000,
+          monthlyExpenses: 800,
+          numberOfChildren: 0,
+        },
+      },
+      "127.0.0.1",
+    );
+
+    expect(error).toBeUndefined();
+    if (!data) {
+      throw new Error('data empty');
+    }
+
+    expect(data).toBeInstanceOf(Array);
+    expect(data.length).toBeGreaterThan(0);
+    for (const item of data) {
+      expect(typeof item.mainPreference).toBe("boolean");
+      expect(typeof item.preference).toBe("boolean");
+      expect(typeof item.capacityValidity).toBe("boolean");
+      expect(typeof item.loanInterestRate).toBe("number");
+      expect(typeof item.installmentAmount).toBe("number");
+      expect(typeof item.rpmn).toBe("number");
+      expect(typeof item.totalAmount).toBe("number");
+      expect(typeof item.loanFee).toBe("number");
+    }
   });
 });
