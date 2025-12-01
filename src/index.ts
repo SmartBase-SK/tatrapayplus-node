@@ -37,17 +37,22 @@ export class TBPlusSDK {
     sdkOptions: {
       mode?: GatewayMode;
       scopes?: Scopes[];
+      baseUrl?: string;
       createClientParams?: ClientOptions;
     } = {},
     logger: TBPlusLogger | undefined = undefined,
   ) {
     this.mode = sdkOptions.mode ?? GatewayMode.SANDBOX;
-    if (this.mode == GatewayMode.PRODUCTION) {
-      this.baseUrl = "https://api.tatrabanka.sk/tatrapayplus/production";
-    } else if (this.mode == GatewayMode.SANDBOX) {
-      this.baseUrl = "https://api.tatrabanka.sk/tatrapayplus/sandbox";
+    if (sdkOptions.baseUrl) {
+      this.baseUrl = sdkOptions.baseUrl;
     } else {
-      throw Error("Unknown gateway mode");
+      if (this.mode == GatewayMode.PRODUCTION) {
+        this.baseUrl = "https://api.tatrabanka.sk/tatrapayplus/production";
+      } else if (this.mode == GatewayMode.SANDBOX) {
+        this.baseUrl = "https://api.tatrabanka.sk/tatrapayplus/sandbox";
+      } else {
+        throw Error("Unknown gateway mode");
+      }
     }
 
     this.clientId = clientId;
